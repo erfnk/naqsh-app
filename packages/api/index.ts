@@ -1,6 +1,5 @@
 import { auth } from "@repo/auth";
 import { logger } from "@repo/logs";
-import { webhookHandler as paymentsWebhookHandler } from "@repo/payments";
 import { getBaseUrl } from "@repo/utils";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
@@ -24,8 +23,6 @@ export const app = new Hono()
 	)
 	// Auth handler
 	.on(["POST", "GET"], "/auth/**", (c) => auth.handler(c.req.raw))
-	// Payments webhook handler
-	.post("/webhooks/payments", (c) => paymentsWebhookHandler(c.req.raw))
 	// Health check
 	.get("/health", (c) => c.text("OK"))
 	// oRPC handlers (for RPC and OpenAPI)

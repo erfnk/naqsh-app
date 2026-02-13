@@ -28,7 +28,6 @@ model User {
   banReason          String?
   banExpires         DateTime?
   onboardingComplete Boolean      @default(false)
-  paymentsCustomerId String?
   locale             String?
   displayUsername    String?
   twoFactorEnabled   Boolean?
@@ -36,7 +35,6 @@ model User {
   accounts           Account[]
   passkeys           Passkey[]
   invitations        Invitation[]
-  purchases          Purchase[]
   members            Member[]
   twofactors         TwoFactor[]
   createdBoards      Board[]         @relation("boardCreator")
@@ -144,10 +142,8 @@ model Organization {
   logo               String?
   createdAt          DateTime
   metadata           String?
-  paymentsCustomerId String?
   members            Member[]
   invitations        Invitation[]
-  purchases          Purchase[]
   boards             Board[]
 
   @@unique([slug])
@@ -185,29 +181,6 @@ model Invitation {
   @@index([organizationId])
   @@index([email])
   @@map("invitation")
-}
-
-enum PurchaseType {
-  SUBSCRIPTION
-  ONE_TIME
-}
-
-model Purchase {
-  id             String        @id @default(cuid())
-  organization   Organization? @relation(fields: [organizationId], references: [id], onDelete: Cascade)
-  organizationId String?
-  user           User?         @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId         String?
-  type           PurchaseType
-  customerId     String
-  subscriptionId String?       @unique
-  productId      String
-  status         String?
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @updatedAt
-
-  @@index([subscriptionId])
-  @@map("purchase")
 }
 
 model Board {

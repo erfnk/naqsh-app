@@ -9,6 +9,9 @@ export const metadata: Metadata = {
 		default: config.appName,
 		template: `%s | ${config.appName}`,
 	},
+	appleWebApp: {
+		title: "Naqsh App",
+	},
 };
 
 export default function RootLayout({ children }: PropsWithChildren) {

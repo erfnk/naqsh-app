@@ -1,11 +1,9 @@
-import { config as paymentsConfig } from "@repo/payments/config";
 import { getSession } from "@saas/auth/lib/server";
 import { SettingsMenu } from "@saas/settings/components/SettingsMenu";
 import { PageHeader } from "@saas/shared/components/PageHeader";
 import { UserAvatar } from "@shared/components/UserAvatar";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
-	CreditCardIcon,
 	LockPasswordIcon,
 	Settings01Icon,
 	Alert02Icon,
@@ -41,17 +39,6 @@ export default async function SettingsLayout({ children }: PropsWithChildren) {
 					href: "/app/settings/security",
 					icon: <HugeiconsIcon icon={LockPasswordIcon} className="size-4 opacity-50" strokeWidth={2} />,
 				},
-				...(paymentsConfig.billingAttachedTo === "user"
-					? [
-							{
-								title: t("settings.menu.account.billing"),
-								href: "/app/settings/billing",
-								icon: (
-									<HugeiconsIcon icon={CreditCardIcon} className="size-4 opacity-50" strokeWidth={2} />
-								),
-							},
-						]
-					: []),
 				{
 					title: t("settings.menu.account.dangerZone"),
 					href: "/app/settings/danger-zone",

@@ -12,7 +12,7 @@ export type TransactionIsolationLevel = z.infer<typeof TransactionIsolationLevel
 
 // File: UserScalarFieldEnum.schema.ts
 
-export const UserScalarFieldEnumSchema = z.enum(['id', 'name', 'email', 'emailVerified', 'image', 'createdAt', 'updatedAt', 'username', 'role', 'banned', 'banReason', 'banExpires', 'onboardingComplete', 'paymentsCustomerId', 'locale', 'displayUsername', 'twoFactorEnabled'])
+export const UserScalarFieldEnumSchema = z.enum(['id', 'name', 'email', 'emailVerified', 'image', 'createdAt', 'updatedAt', 'username', 'role', 'banned', 'banReason', 'banExpires', 'onboardingComplete', 'locale', 'displayUsername', 'twoFactorEnabled'])
 
 export type UserScalarFieldEnum = z.infer<typeof UserScalarFieldEnumSchema>;
 
@@ -48,7 +48,7 @@ export type TwoFactorScalarFieldEnum = z.infer<typeof TwoFactorScalarFieldEnumSc
 
 // File: OrganizationScalarFieldEnum.schema.ts
 
-export const OrganizationScalarFieldEnumSchema = z.enum(['id', 'name', 'slug', 'logo', 'createdAt', 'metadata', 'paymentsCustomerId'])
+export const OrganizationScalarFieldEnumSchema = z.enum(['id', 'name', 'slug', 'logo', 'createdAt', 'metadata'])
 
 export type OrganizationScalarFieldEnum = z.infer<typeof OrganizationScalarFieldEnumSchema>;
 
@@ -63,12 +63,6 @@ export type MemberScalarFieldEnum = z.infer<typeof MemberScalarFieldEnumSchema>;
 export const InvitationScalarFieldEnumSchema = z.enum(['id', 'organizationId', 'email', 'role', 'status', 'expiresAt', 'inviterId', 'createdAt'])
 
 export type InvitationScalarFieldEnum = z.infer<typeof InvitationScalarFieldEnumSchema>;
-
-// File: PurchaseScalarFieldEnum.schema.ts
-
-export const PurchaseScalarFieldEnumSchema = z.enum(['id', 'organizationId', 'userId', 'type', 'customerId', 'subscriptionId', 'productId', 'status', 'createdAt', 'updatedAt'])
-
-export type PurchaseScalarFieldEnum = z.infer<typeof PurchaseScalarFieldEnumSchema>;
 
 // File: BoardScalarFieldEnum.schema.ts
 
@@ -118,12 +112,6 @@ export const NullsOrderSchema = z.enum(['first', 'last'])
 
 export type NullsOrder = z.infer<typeof NullsOrderSchema>;
 
-// File: PurchaseType.schema.ts
-
-export const PurchaseTypeSchema = z.enum(['SUBSCRIPTION', 'ONE_TIME'])
-
-export type PurchaseType = z.infer<typeof PurchaseTypeSchema>;
-
 // File: User.schema.ts
 
 export const UserSchema = z.object({
@@ -140,7 +128,6 @@ export const UserSchema = z.object({
   banReason: z.string().nullish(),
   banExpires: z.date().nullish(),
   onboardingComplete: z.boolean(),
-  paymentsCustomerId: z.string().nullish(),
   locale: z.string().nullish(),
   displayUsername: z.string().nullish(),
   twoFactorEnabled: z.boolean().nullish(),
@@ -243,7 +230,6 @@ export const OrganizationSchema = z.object({
   logo: z.string().nullish(),
   createdAt: z.date(),
   metadata: z.string().nullish(),
-  paymentsCustomerId: z.string().nullish(),
 });
 
 export type OrganizationType = z.infer<typeof OrganizationSchema>;
@@ -277,23 +263,6 @@ export const InvitationSchema = z.object({
 
 export type InvitationType = z.infer<typeof InvitationSchema>;
 
-
-// File: Purchase.schema.ts
-
-export const PurchaseSchema = z.object({
-  id: z.string(),
-  organizationId: z.string().nullish(),
-  userId: z.string().nullish(),
-  type: PurchaseTypeSchema,
-  customerId: z.string(),
-  subscriptionId: z.string().nullish(),
-  productId: z.string(),
-  status: z.string().nullish(),
-  createdAt: z.date(),
-  updatedAt: z.date(),
-});
-
-export type PurchaseModel = z.infer<typeof PurchaseSchema>;
 
 // File: Board.schema.ts
 

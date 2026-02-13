@@ -1,6 +1,5 @@
 "use client";
 import { config as authConfig } from "@repo/auth/config";
-import { config as paymentsConfig } from "@repo/payments/config";
 import { cn } from "@repo/ui";
 import {
 	DropdownMenu,
@@ -22,8 +21,6 @@ import {
 import { useSession } from "@saas/auth/hooks/use-session";
 import { useActiveOrganization } from "@saas/organizations/hooks/use-active-organization";
 import { useOrganizationListQuery } from "@saas/organizations/lib/api";
-import { usePlanData } from "@saas/payments/hooks/plan-data";
-import { usePurchases } from "@saas/payments/hooks/purchases";
 import { UserAvatar } from "@shared/components/UserAvatar";
 import { useRouter } from "@shared/hooks/router";
 import { clearCache } from "@shared/lib/cache";
@@ -46,21 +43,9 @@ export function OrganzationSelect({
 	const { activeOrganization, setActiveOrganization } =
 		useActiveOrganization();
 	const { data: allOrganizations } = useOrganizationListQuery();
-	const { planData } = usePlanData();
-	const { activePlan: orgActivePlan } = usePurchases(activeOrganization?.id);
-	const { activePlan: userActivePlan } = usePurchases();
-
 	if (!user) {
 		return null;
 	}
-
-	const getPlanTitle = (planId: string | undefined) => {
-		if (!planId) {
-			return null;
-		}
-		const plan = planData[planId as keyof typeof planData];
-		return plan?.title ?? null;
-	};
 
 	const triggerButton = (
 		<DropdownMenuTrigger
@@ -95,13 +80,6 @@ export function OrganzationSelect({
 								<span className="truncate text-sm font-semibold text-foreground">
 									{activeOrganization.name}
 								</span>
-								{paymentsConfig.billingAttachedTo ===
-									"organization" &&
-									orgActivePlan && (
-										<span className="truncate text-xs text-primary font-medium">
-											{getPlanTitle(orgActivePlan.id)}
-										</span>
-									)}
 							</div>
 						)}
 					</>
@@ -122,12 +100,6 @@ export function OrganzationSelect({
 										"organizations.organizationSelect.personalAccount",
 									)}
 								</span>
-								{paymentsConfig.billingAttachedTo === "user" &&
-									userActivePlan && (
-										<span className="truncate text-xs text-primary font-medium">
-											{getPlanTitle(userActivePlan.id)}
-										</span>
-									)}
 							</div>
 						)}
 					</>

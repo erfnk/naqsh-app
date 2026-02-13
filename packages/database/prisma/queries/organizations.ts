@@ -102,31 +102,6 @@ export async function getOrganizationMembership(
 	});
 }
 
-export async function getOrganizationWithPurchasesAndMembersCount(
-	organizationId: string,
-) {
-	const organization = await db.organization.findUnique({
-		where: {
-			id: organizationId,
-		},
-		include: {
-			purchases: true,
-			_count: {
-				select: {
-					members: true,
-				},
-			},
-		},
-	});
-
-	return organization
-		? {
-				...organization,
-				membersCount: organization._count.members,
-			}
-		: null;
-}
-
 export async function getPendingInvitationByEmail(email: string) {
 	return db.invitation.findFirst({
 		where: {

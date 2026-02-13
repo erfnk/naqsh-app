@@ -84,14 +84,6 @@ Built on the [Supastarter](https://supastarter.dev) boilerplate as the foundatio
 
 ---
 
-## Screenshots
-
-<!-- Add your screenshots here -->
-<!-- ![Dashboard](./docs/screenshots/dashboard.png) -->
-<!-- ![Kanban Board](./docs/screenshots/kanban.png) -->
-
----
-
 ## Getting Started
 
 ### Prerequisites

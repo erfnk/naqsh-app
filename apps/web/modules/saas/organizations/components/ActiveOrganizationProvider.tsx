@@ -2,7 +2,6 @@
 
 import { authClient } from "@repo/auth/client";
 import { isOrganizationAdmin } from "@repo/auth/lib/helper";
-import { config as paymentsConfig } from "@repo/payments/config";
 import { useSession } from "@saas/auth/hooks/use-session";
 import { sessionQueryKey } from "@saas/auth/lib/api";
 import {
@@ -10,7 +9,6 @@ import {
 	useActiveOrganizationQuery,
 } from "@saas/organizations/lib/api";
 import { useRouter } from "@shared/hooks/router";
-import { orpc } from "@shared/lib/orpc-query-utils";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
 import nProgress from "nprogress";
@@ -61,16 +59,6 @@ export function ActiveOrganizationProvider({
 		}
 
 		await refetchActiveOrganization();
-
-		if (paymentsConfig.billingAttachedTo === "organization") {
-			await queryClient.prefetchQuery(
-				orpc.payments.listPurchases.queryOptions({
-					input: {
-						organizationId: newActiveOrganization.id,
-					},
-				}),
-			);
-		}
 
 		await queryClient.setQueryData(sessionQueryKey, (data: any) => {
 			return {

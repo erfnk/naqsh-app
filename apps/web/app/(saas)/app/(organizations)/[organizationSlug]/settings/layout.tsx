@@ -1,13 +1,10 @@
-import { config as authConfig } from "@repo/auth/config";
 import { isOrganizationAdmin } from "@repo/auth/lib/helper";
-import { config as paymentsConfig } from "@repo/payments/config";
 import { getActiveOrganization, getSession } from "@saas/auth/lib/server";
 import { OrganizationLogo } from "@saas/organizations/components/OrganizationLogo";
 import { SettingsMenu } from "@saas/settings/components/SettingsMenu";
 import { PageHeader } from "@saas/shared/components/PageHeader";
 import { HugeiconsIcon } from "@hugeicons/react";
 import {
-	CreditCardIcon,
 	Settings02Icon,
 	Alert02Icon,
 	UserMultiple02Icon,
@@ -58,19 +55,6 @@ export default async function SettingsLayout({
 					href: `${organizationSettingsBasePath}/members`,
 					icon: <HugeiconsIcon icon={UserMultiple02Icon} className="size-4 opacity-50" strokeWidth={2} />,
 				},
-				...(authConfig.organizations.enable &&
-				paymentsConfig.billingAttachedTo === "organization" &&
-				userIsOrganizationAdmin
-					? [
-							{
-								title: t("settings.menu.organization.billing"),
-								href: `${organizationSettingsBasePath}/billing`,
-								icon: (
-									<HugeiconsIcon icon={CreditCardIcon} className="size-4 opacity-50" strokeWidth={2} />
-								),
-							},
-						]
-					: []),
 				...(userIsOrganizationAdmin
 					? [
 							{
