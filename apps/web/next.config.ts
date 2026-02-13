@@ -1,0 +1,75 @@
+// @ts-expect-error - PrismaPlugin is not typed
+import { PrismaPlugin } from "@prisma/nextjs-monorepo-workaround-plugin";
+import type { NextConfig } from "next";
+import nextIntlPlugin from "next-intl/plugin";
+
+const withNextIntl = nextIntlPlugin("./modules/i18n/request.ts");
+
+const nextConfig: NextConfig = {
+	experimental: {
+		optimizePackageImports: [
+			"@hugeicons/core-free-icons",
+			"recharts",
+			"react-aria-components",
+		],
+	},
+	transpilePackages: [
+		"@repo/api",
+		"@repo/auth",
+		"@repo/database",
+		"@repo/ui",
+	],
+	images: {
+		remotePatterns: [
+			{
+				// google profile images
+				protocol: "https",
+				hostname: "lh3.googleusercontent.com",
+			},
+			{
+				// github profile images
+				protocol: "https",
+				hostname: "avatars.githubusercontent.com",
+			},
+			{
+				// placeholder images
+				protocol: "https",
+				hostname: "picsum.photos",
+			},
+		],
+	},
+	async redirects() {
+		return [
+			{
+				source: "/app/settings",
+				destination: "/app/settings/general",
+				permanent: true,
+			},
+			{
+				source: "/app/:organizationSlug/settings",
+				destination: "/app/:organizationSlug/settings/general",
+				permanent: true,
+			},
+			{
+				source: "/app/admin",
+				destination: "/app/admin/users",
+				permanent: true,
+			},
+		];
+	},
+	webpack: (config, { webpack, isServer }) => {
+		config.plugins.push(
+			new webpack.IgnorePlugin({
+				resourceRegExp: /^pg-native$|^cloudflare:sockets$/,
+			}),
+		);
+
+		if (isServer) {
+			config.plugins.push(new PrismaPlugin());
+		}
+
+		return config;
+	},
+};
+
+export default withNextIntl(nextConfig);

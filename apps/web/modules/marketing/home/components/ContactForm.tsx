@@ -1,0 +1,134 @@
+"use client";
+
+import { zodResolver } from "@shared/lib/zod-form-resolver";
+import { contactFormSchema } from "@repo/api/modules/contact/types";
+import { Alert, AlertTitle } from "@repo/ui/components/alert";
+import { Button } from "@repo/ui/components/button";
+import {
+	Form,
+	FormControl,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@repo/ui/components/form";
+import { Input } from "@repo/ui/components/input";
+import { Textarea } from "@repo/ui/components/textarea";
+import { orpc } from "@shared/lib/orpc-query-utils";
+import { useMutation } from "@tanstack/react-query";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { MailValidation01Icon, Mail01Icon } from "@hugeicons/core-free-icons";
+import { useTranslations } from "next-intl";
+import { useForm } from "react-hook-form";
+
+export function ContactForm() {
+	const t = useTranslations();
+	const contactFormMutation = useMutation(
+		orpc.contact.submit.mutationOptions(),
+	);
+
+	const form = useForm({
+		resolver: zodResolver(contactFormSchema),
+		defaultValues: {
+			name: "",
+			email: "",
+			message: "",
+		},
+	});
+
+	const onSubmit = form.handleSubmit(async (values) => {
+		try {
+			await contactFormMutation.mutateAsync(values);
+		} catch {
+			form.setError("root", {
+				message: t("contact.form.notifications.error"),
+			});
+		}
+	});
+
+	return (
+		<div>
+			{form.formState.isSubmitSuccessful ? (
+				<Alert variant="success">
+					<HugeiconsIcon icon={MailValidation01Icon} strokeWidth={2} />
+					<AlertTitle>
+						{t("contact.form.notifications.success")}
+					</AlertTitle>
+				</Alert>
+			) : (
+				<Form {...form}>
+					<form
+						onSubmit={onSubmit}
+						className="flex flex-col items-stretch gap-6"
+					>
+						{form.formState.errors.root?.message && (
+							<Alert variant="error">
+								<HugeiconsIcon icon={Mail01Icon} strokeWidth={2} />
+								<AlertTitle>
+									{form.formState.errors.root.message}
+								</AlertTitle>
+							</Alert>
+						)}
+
+						<FormField
+							control={form.control}
+							name="name"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>
+										{t("contact.form.name")}
+									</FormLabel>
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="email"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>
+										{t("contact.form.email")}
+									</FormLabel>
+									<FormControl>
+										<Input {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<FormField
+							control={form.control}
+							name="message"
+							render={({ field }) => (
+								<FormItem>
+									<FormLabel>
+										{t("contact.form.message")}
+									</FormLabel>
+									<FormControl>
+										<Textarea {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<Button
+							type="submit"
+							className="w-full"
+							variant="primary"
+							loading={form.formState.isSubmitting}
+						>
+							{t("contact.form.submit")}
+						</Button>
+					</form>
+				</Form>
+			)}
+		</div>
+	);
+}
