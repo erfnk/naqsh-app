@@ -16,14 +16,28 @@ export const moveTask = protectedProcedure
 	.handler(async ({ context: { user }, input }) => {
 		const task = await db.task.findUnique({
 			where: { id: input.taskId },
-			select: { boardId: true },
+			select: { boardId: true, assigneeId: true },
 		});
 
 		if (!task) {
 			throw new ORPCError("NOT_FOUND");
 		}
 
-		await verifyBoardAccess(task.boardId, user.id);
+		const { permissions } = await verifyBoardAccess(
+			task.boardId,
+			user.id,
+		);
+
+		if (!permissions.canMoveAnyTask) {
+			if (
+				!(
+					permissions.canUpdateOwnTask &&
+					task.assigneeId === user.id
+				)
+			) {
+				throw new ORPCError("FORBIDDEN");
+			}
+		}
 
 		// Verify target column belongs to the same board
 		const targetColumn = await db.column.findUnique({

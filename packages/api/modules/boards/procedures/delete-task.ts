@@ -23,7 +23,12 @@ export const deleteTask = protectedProcedure
 			throw new ORPCError("NOT_FOUND");
 		}
 
-		await verifyBoardAccess(task.boardId, user.id);
+		const { permissions } = await verifyBoardAccess(task.boardId, user.id);
+
+		if (!permissions.canEditAnyTask) {
+			throw new ORPCError("FORBIDDEN");
+		}
+
 		await deleteTaskFn(id);
 		return { success: true };
 	});

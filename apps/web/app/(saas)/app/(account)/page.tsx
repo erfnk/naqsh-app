@@ -1,8 +1,5 @@
-import { config } from "@repo/auth/config";
 import { getOrganizationList, getSession } from "@saas/auth/lib/server";
-import { PageHeader } from "@saas/shared/components/PageHeader";
 import { redirect } from "next/navigation";
-import { getTranslations } from "next-intl/server";
 
 export default async function AppStartPage() {
 	const session = await getSession();
@@ -13,30 +10,14 @@ export default async function AppStartPage() {
 
 	const organizations = await getOrganizationList();
 
-	if (
-		config.organizations.enable &&
-		config.organizations.requireOrganization
-	) {
-		const organization =
-			organizations.find(
-				(org) => org.id === session?.session.activeOrganizationId,
-			) || organizations[0];
+	const organization =
+		organizations.find(
+			(org) => org.id === session.session.activeOrganizationId,
+		) || organizations[0];
 
-		if (!organization) {
-			redirect("/new-organization");
-		}
-
-		redirect(`/app/${organization.slug}`);
+	if (!organization) {
+		redirect("/new-organization");
 	}
 
-	const t = await getTranslations();
-
-	return (
-		<div>
-			<PageHeader
-				title={t("start.welcome", { name: session?.user.name })}
-				subtitle={t("start.subtitle")}
-			/>
-		</div>
-	);
+	redirect(`/app/${organization.slug}`);
 }

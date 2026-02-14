@@ -1,6 +1,7 @@
+import { ORPCError } from "@orpc/server";
 import { reorderColumns as reorderColumnsFn } from "@repo/database";
 import { protectedProcedure } from "../../../orpc/procedures";
-import { verifyBoardOwner } from "../lib/board-access";
+import { verifyBoardAccess } from "../lib/board-access";
 import { reorderColumnsSchema } from "../types";
 
 export const reorderColumns = protectedProcedure
@@ -13,7 +14,15 @@ export const reorderColumns = protectedProcedure
 	})
 	.input(reorderColumnsSchema)
 	.handler(async ({ context: { user }, input }) => {
-		await verifyBoardOwner(input.boardId, user.id);
+		const { permissions } = await verifyBoardAccess(
+			input.boardId,
+			user.id,
+		);
+
+		if (!permissions.canManageColumns) {
+			throw new ORPCError("FORBIDDEN");
+		}
+
 		await reorderColumnsFn(input.boardId, input.columnOrders);
 		return { success: true };
 	});

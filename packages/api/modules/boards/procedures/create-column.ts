@@ -1,9 +1,10 @@
+import { ORPCError } from "@orpc/server";
 import {
 	createColumn as createColumnFn,
 	getNextColumnPosition,
 } from "@repo/database";
 import { protectedProcedure } from "../../../orpc/procedures";
-import { verifyBoardOwner } from "../lib/board-access";
+import { verifyBoardAccess } from "../lib/board-access";
 import { createColumnSchema } from "../types";
 
 export const createColumn = protectedProcedure
@@ -16,7 +17,15 @@ export const createColumn = protectedProcedure
 	})
 	.input(createColumnSchema)
 	.handler(async ({ context: { user }, input }) => {
-		await verifyBoardOwner(input.boardId, user.id);
+		const { permissions } = await verifyBoardAccess(
+			input.boardId,
+			user.id,
+		);
+
+		if (!permissions.canManageColumns) {
+			throw new ORPCError("FORBIDDEN");
+		}
+
 		const position = await getNextColumnPosition(input.boardId);
 		return createColumnFn({ ...input, position });
 	});

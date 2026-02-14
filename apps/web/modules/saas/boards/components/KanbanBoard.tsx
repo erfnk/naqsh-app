@@ -1,5 +1,6 @@
 "use client";
 
+import type { BoardPermissions } from "@repo/api/modules/boards/types";
 import { Spinner } from "@repo/ui";
 import { orpc } from "@shared/lib/orpc-query-utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
@@ -55,7 +56,13 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
 		input: { id: boardId },
 	});
 
-	const { data: board, isLoading } = useQuery(boardQueryOptions);
+	const { data: board, isLoading } = useQuery({
+		...boardQueryOptions,
+		refetchInterval: 10_000,
+		refetchIntervalInBackground: false,
+	});
+
+	const permissions = board?.permissions as BoardPermissions | undefined;
 
 	const reorderMutation = useMutation({
 		...orpc.boards.tasks.reorder.mutationOptions(),
@@ -276,6 +283,7 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
 					onReorder={handleReorder}
 					onMove={handleMove}
 					onCreateTask={handleCreateTask}
+					permissions={permissions}
 				/>
 			) : (
 				<div className="flex gap-4 overflow-x-auto pb-4 w-full">
@@ -295,6 +303,7 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
 								onReorder={handleReorder}
 								onMove={handleMove}
 								onCreateTask={handleCreateTask}
+								permissions={permissions}
 							/>
 						),
 					)}
@@ -307,6 +316,7 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
 				columns={allColumnData}
 				open={sheetOpen}
 				onOpenChange={setSheetOpen}
+				permissions={permissions}
 			/>
 
 			<CreateTaskDialog

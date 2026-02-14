@@ -94,6 +94,12 @@ export const TaskScalarFieldEnumSchema = z.enum(['id', 'columnId', 'boardId', 't
 
 export type TaskScalarFieldEnum = z.infer<typeof TaskScalarFieldEnumSchema>;
 
+// File: TaskCommentScalarFieldEnum.schema.ts
+
+export const TaskCommentScalarFieldEnumSchema = z.enum(['id', 'taskId', 'authorId', 'content', 'createdAt', 'updatedAt'])
+
+export type TaskCommentScalarFieldEnum = z.infer<typeof TaskCommentScalarFieldEnumSchema>;
+
 // File: SortOrder.schema.ts
 
 export const SortOrderSchema = z.enum(['asc', 'desc'])
@@ -336,4 +342,18 @@ export const TaskSchema = z.object({
 });
 
 export type TaskType = z.infer<typeof TaskSchema>;
+
+
+// File: TaskComment.schema.ts
+
+export const TaskCommentSchema = z.object({
+  id: z.string(),
+  taskId: z.string(),
+  authorId: z.string(),
+  content: z.string(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+export type TaskCommentType = z.infer<typeof TaskCommentSchema>;
 

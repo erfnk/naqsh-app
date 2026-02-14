@@ -1,5 +1,6 @@
 "use client";
 
+import type { BoardPermissions } from "@repo/api/modules/boards/types";
 import {
 	Button,
 	Dialog,
@@ -16,6 +17,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { TaskCommentsSection } from "./TaskCommentsSection";
 import { TaskFormFields, type TaskFormValues } from "./TaskFormFields";
 
 const formSchema = z.object({
@@ -41,6 +43,7 @@ interface EditTaskDialogProps {
 	columns: { id: string; title: string }[];
 	open: boolean;
 	onOpenChange: (open: boolean) => void;
+	permissions?: BoardPermissions;
 }
 
 export function EditTaskDialog({
@@ -49,6 +52,7 @@ export function EditTaskDialog({
 	columns,
 	open,
 	onOpenChange,
+	permissions,
 }: EditTaskDialogProps) {
 	const t = useTranslations();
 	const queryClient = useQueryClient();
@@ -100,7 +104,7 @@ export function EditTaskDialog({
 
 	return (
 		<Dialog open={open} onOpenChange={onOpenChange}>
-			<DialogContent className="sm:max-w-md">
+			<DialogContent className="sm:max-w-lg">
 				<DialogHeader>
 					<DialogTitle>{t("boards.task.edit.title")}</DialogTitle>
 					<DialogDescription>
@@ -108,28 +112,56 @@ export function EditTaskDialog({
 					</DialogDescription>
 				</DialogHeader>
 
-				<form
-					onSubmit={form.handleSubmit(onSubmit)}
-					className="space-y-4"
-				>
-					<TaskFormFields form={form} columns={columns} />
+				{permissions?.canEditAnyTask !== false ? (
+					<form
+						onSubmit={form.handleSubmit(onSubmit)}
+						className="space-y-4"
+					>
+						<TaskFormFields form={form} columns={columns} />
 
-					<DialogFooter>
-						<Button
-							type="button"
-							variant="outline"
-							onClick={() => onOpenChange(false)}
-						>
-							{t("common.confirmation.cancel")}
-						</Button>
-						<Button
-							type="submit"
-							disabled={updateMutation.isPending}
-						>
-							{t("boards.task.edit.submit")}
-						</Button>
-					</DialogFooter>
-				</form>
+						<DialogFooter>
+							<Button
+								type="button"
+								variant="outline"
+								onClick={() => onOpenChange(false)}
+							>
+								{t("common.confirmation.cancel")}
+							</Button>
+							<Button
+								type="submit"
+								disabled={updateMutation.isPending}
+							>
+								{t("boards.task.edit.submit")}
+							</Button>
+						</DialogFooter>
+					</form>
+				) : (
+					<div className="space-y-4">
+						<TaskFormFields
+							form={form}
+							columns={columns}
+							readOnly
+						/>
+						<DialogFooter>
+							<Button
+								variant="outline"
+								onClick={() => onOpenChange(false)}
+							>
+								{t("common.confirmation.cancel")}
+							</Button>
+						</DialogFooter>
+					</div>
+				)}
+
+				{task && (
+					<div className="border-t pt-4">
+						<TaskCommentsSection
+							taskId={task.id}
+							boardId={boardId}
+							canComment={permissions?.canComment !== false}
+						/>
+					</div>
+				)}
 			</DialogContent>
 		</Dialog>
 	);

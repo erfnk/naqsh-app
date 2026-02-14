@@ -1,7 +1,9 @@
 "use client";
 
 import { zodResolver } from "@shared/lib/zod-form-resolver";
+import type { OrganizationMemberRole } from "@repo/auth";
 import { authClient } from "@repo/auth/client";
+import { getAssignableRoles } from "@repo/auth/lib/roles";
 import { Button } from "@repo/ui/components/button";
 import {
 	Form,
@@ -13,6 +15,7 @@ import {
 import { Input } from "@repo/ui/components/input";
 import { toastError, toastSuccess } from "@repo/ui/components/toast";
 import { OrganizationRoleSelect } from "@saas/organizations/components/OrganizationRoleSelect";
+import { useActiveOrganization } from "@saas/organizations/hooks/use-active-organization";
 import { fullOrganizationQueryKey } from "@saas/organizations/lib/api";
 import { SettingsItem } from "@saas/shared/components/SettingsItem";
 import { useQueryClient } from "@tanstack/react-query";
@@ -32,6 +35,10 @@ export function InviteMemberForm({
 }) {
 	const t = useTranslations();
 	const queryClient = useQueryClient();
+	const { activeOrganizationUserRole } = useActiveOrganization();
+	const assignableRoles = getAssignableRoles(
+		activeOrganizationUserRole ?? "member",
+	) as OrganizationMemberRole[];
 
 	const form = useForm({
 		resolver: zodResolver(formSchema),
@@ -116,6 +123,7 @@ export function InviteMemberForm({
 											<OrganizationRoleSelect
 												value={field.value}
 												onSelect={field.onChange}
+												allowedRoles={assignableRoles}
 											/>
 										</FormControl>
 									</FormItem>

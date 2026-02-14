@@ -55,7 +55,14 @@ export function OrganizationInvitationModal({
 					queryKey: organizationListQueryKey,
 				});
 
-				router.replace(`/app/${organizationSlug}`);
+				const { data: session } = await authClient.getSession();
+				if (session?.user && !session.user.onboardingComplete) {
+					router.replace(
+						`/onboarding?redirectTo=/app/${organizationSlug}`,
+					);
+				} else {
+					router.replace(`/app/${organizationSlug}`);
+				}
 			} else {
 				const { error } =
 					await authClient.organization.rejectInvitation({
@@ -66,7 +73,14 @@ export function OrganizationInvitationModal({
 					throw error;
 				}
 
-				router.replace("/app");
+				const { data: organizations } =
+					await authClient.organization.list();
+				const org = organizations?.[0];
+				if (org) {
+					router.replace(`/app/${org.slug}`);
+				} else {
+					router.replace("/auth/login");
+				}
 			}
 		} catch {
 			toastError(t("organizations.invitationModal.error"));

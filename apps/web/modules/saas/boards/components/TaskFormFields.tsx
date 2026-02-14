@@ -26,12 +26,14 @@ interface TaskFormFieldsProps {
 	form: UseFormReturn<TaskFormValues>;
 	columns: { id: string; title: string }[];
 	autoFocusTitle?: boolean;
+	readOnly?: boolean;
 }
 
 export function TaskFormFields({
 	form,
 	columns,
 	autoFocusTitle,
+	readOnly,
 }: TaskFormFieldsProps) {
 	const t = useTranslations();
 
@@ -55,6 +57,7 @@ export function TaskFormFields({
 					placeholder={t("boards.task.create.titlePlaceholder")}
 					{...form.register("title")}
 					autoFocus={autoFocusTitle}
+					disabled={readOnly}
 				/>
 				{form.formState.errors.title && (
 					<p className="text-sm text-destructive">
@@ -74,6 +77,7 @@ export function TaskFormFields({
 					)}
 					{...form.register("description")}
 					rows={3}
+					disabled={readOnly}
 				/>
 			</div>
 

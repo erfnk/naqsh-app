@@ -1,5 +1,18 @@
 import { z } from "zod";
 
+export interface BoardPermissions {
+	canEditBoard: boolean;
+	canDeleteBoard: boolean;
+	canManageColumns: boolean;
+	canCreateTasks: boolean;
+	canEditAnyTask: boolean;
+	canMoveAnyTask: boolean;
+	canUpdateOwnTask: boolean;
+	canComment: boolean;
+	canFavorite: boolean;
+	canView: boolean;
+}
+
 export const BOARD_VISIBILITY = {
 	private: "private",
 	public: "public",
@@ -78,4 +91,25 @@ export const reorderColumnsSchema = z.object({
 			position: z.number().int().min(0),
 		}),
 	),
+});
+
+export const createCommentSchema = z.object({
+	taskId: z.string(),
+	boardId: z.string(),
+	content: z.string().min(1).max(2000),
+});
+
+export const updateCommentSchema = z.object({
+	id: z.string(),
+	content: z.string().min(1).max(2000),
+});
+
+export const deleteCommentSchema = z.object({
+	id: z.string(),
+	boardId: z.string(),
+});
+
+export const listCommentsSchema = z.object({
+	taskId: z.string(),
+	boardId: z.string(),
 });

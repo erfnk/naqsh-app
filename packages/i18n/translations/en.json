@@ -99,6 +99,8 @@
 			"namePlaceholder": "Enter board title...",
 			"description": "Description (optional)",
 			"descriptionPlaceholder": "What is this board about?",
+			"shared": "Share with organization",
+			"sharedDescription": "All organization members will be able to view this board.",
 			"submit": "Create board",
 			"notifications": {
 				"success": "Board created successfully.",
@@ -182,6 +184,23 @@
 				"notifications": {
 					"success": "Task deleted.",
 					"error": "Could not delete the task."
+				}
+			},
+			"comments": {
+				"title": "Comments",
+				"placeholder": "Add a comment...",
+				"submit": "Post",
+				"empty": "No comments yet.",
+				"edit": "Edit",
+				"delete": "Delete",
+				"deleteConfirm": "Delete this comment?",
+				"notifications": {
+					"createSuccess": "Comment added.",
+					"createError": "Could not add comment.",
+					"updateSuccess": "Comment updated.",
+					"updateError": "Could not update comment.",
+					"deleteSuccess": "Comment deleted.",
+					"deleteError": "Could not delete comment."
 				}
 			}
 		},

@@ -2,6 +2,7 @@
 import type { OrganizationMemberRole } from "@repo/auth";
 import { authClient } from "@repo/auth/client";
 import { isOrganizationAdmin } from "@repo/auth/lib/helper";
+import { canAssignRole, getAssignableRoles } from "@repo/auth/lib/roles";
 import { Button } from "@repo/ui/components/button";
 import {
 	DropdownMenu,
@@ -57,6 +58,11 @@ export function OrganizationMembersList({
 	const memberRoles = useOrganizationMemberRoles();
 
 	const userIsOrganizationAdmin = isOrganizationAdmin(organization, user);
+	const currentUserRole =
+		organization?.members.find((m) => m.userId === user?.id)?.role ?? "member";
+	const assignableRoles = getAssignableRoles(
+		currentUserRole,
+	) as OrganizationMemberRole[];
 
 	const updateMemberRole = async (
 		memberId: string,
@@ -161,8 +167,13 @@ export function OrganizationMembersList({
 									}
 									disabled={
 										!userIsOrganizationAdmin ||
-										row.original.role === "owner"
+										row.original.role === "owner" ||
+										!canAssignRole(
+											currentUserRole,
+											row.original.role,
+										)
 									}
+									allowedRoles={assignableRoles}
 								/>
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
@@ -171,14 +182,12 @@ export function OrganizationMembersList({
 										</Button>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent>
-										{row.original.userId !== user?.id && (
+										{row.original.userId !== user?.id &&
+										canAssignRole(
+											currentUserRole,
+											row.original.role,
+										) && (
 											<DropdownMenuItem
-												disabled={
-													!isOrganizationAdmin(
-														organization,
-														user,
-													)
-												}
 												className="text-destructive"
 												onClick={async () =>
 													removeMember(

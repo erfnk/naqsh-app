@@ -19,7 +19,7 @@ export const getBoard = protectedProcedure
 		}),
 	)
 	.handler(async ({ context: { user }, input: { id } }) => {
-		const { role } = await verifyBoardAccess(id, user.id);
+		const { boardRole, permissions } = await verifyBoardAccess(id, user.id);
 
 		const board = await getBoardById(id);
 
@@ -29,5 +29,5 @@ export const getBoard = protectedProcedure
 
 		await upsertBoardAccess(id, user.id);
 
-		return { ...board, userRole: role };
+		return { ...board, userRole: boardRole, permissions };
 	});

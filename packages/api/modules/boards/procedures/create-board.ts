@@ -1,5 +1,6 @@
 import { ORPCError } from "@orpc/server";
 import { createBoard as createBoardFn } from "@repo/database";
+import { hasMinRole } from "@repo/auth/lib/roles";
 import { protectedProcedure } from "../../../orpc/procedures";
 import { verifyOrganizationMembership } from "../../organizations/lib/membership";
 import { createBoardSchema } from "../types";
@@ -21,6 +22,13 @@ export const createBoard = protectedProcedure
 		);
 
 		if (!membership) {
+			throw new ORPCError("FORBIDDEN");
+		}
+
+		if (
+			input.visibility === "public" &&
+			!hasMinRole(membership.role, "admin")
+		) {
 			throw new ORPCError("FORBIDDEN");
 		}
 

@@ -1,5 +1,6 @@
 "use client";
 
+import type { BoardPermissions } from "@repo/api/modules/boards/types";
 import { cn } from "@repo/ui";
 import { useCallback, useRef, useState } from "react";
 import { KanbanColumn } from "./KanbanColumn";
@@ -33,6 +34,7 @@ interface MobileColumnViewProps {
 	onReorder: (columnId: string, taskIds: string[]) => void;
 	onMove: (taskId: string, targetColumnId: string, position: number) => void;
 	onCreateTask: (columnId: string) => void;
+	permissions?: BoardPermissions;
 }
 
 const SWIPE_THRESHOLD = 50;
@@ -45,6 +47,7 @@ export function MobileColumnView({
 	onReorder,
 	onMove,
 	onCreateTask,
+	permissions,
 }: MobileColumnViewProps) {
 	const [activeIndex, setActiveIndex] = useState(0);
 	const touchStartX = useRef(0);
@@ -117,6 +120,7 @@ export function MobileColumnView({
 								onReorder={onReorder}
 								onMove={onMove}
 								onCreateTask={onCreateTask}
+								permissions={permissions}
 							/>
 						</div>
 					))}

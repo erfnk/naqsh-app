@@ -1,5 +1,6 @@
 "use client";
 
+import type { BoardPermissions } from "@repo/api/modules/boards/types";
 import {
 	ContextMenu,
 	ContextMenuContent,
@@ -29,6 +30,7 @@ interface KanbanTaskContextMenuProps {
 	currentColumnId: string;
 	columns: ColumnData[];
 	onEdit: () => void;
+	permissions?: BoardPermissions;
 }
 
 export function KanbanTaskContextMenu({
@@ -37,6 +39,7 @@ export function KanbanTaskContextMenu({
 	currentColumnId,
 	columns,
 	onEdit,
+	permissions,
 	children,
 }: PropsWithChildren<KanbanTaskContextMenuProps>) {
 	const t = useTranslations();
@@ -80,6 +83,9 @@ export function KanbanTaskContextMenu({
 
 	const otherColumns = columns.filter((c) => c.id !== currentColumnId);
 
+	const canEdit = permissions?.canEditAnyTask !== false;
+	const canMove = permissions?.canMoveAnyTask !== false;
+
 	return (
 		<ContextMenu>
 			<ContextMenuTrigger>{children}</ContextMenuTrigger>
@@ -88,32 +94,34 @@ export function KanbanTaskContextMenu({
 					{t("boards.task.contextMenu.edit")}
 				</ContextMenuItem>
 
-				<ContextMenuSub>
-					<ContextMenuSubTrigger>
-						{t("boards.task.contextMenu.changePriority")}
-					</ContextMenuSubTrigger>
-					<ContextMenuSubContent>
-						{(
-							Object.keys(PRIORITY_CONFIG) as Array<
-								keyof typeof PRIORITY_CONFIG
-							>
-						).map((priority) => (
-							<ContextMenuItem
-								key={priority}
-								onClick={() =>
-									updateMutation.mutate({
-										id: taskId,
-										priority,
-									})
-								}
-							>
-								{t(`boards.task.priorities.${priority}`)}
-							</ContextMenuItem>
-						))}
-					</ContextMenuSubContent>
-				</ContextMenuSub>
+				{canEdit && (
+					<ContextMenuSub>
+						<ContextMenuSubTrigger>
+							{t("boards.task.contextMenu.changePriority")}
+						</ContextMenuSubTrigger>
+						<ContextMenuSubContent>
+							{(
+								Object.keys(PRIORITY_CONFIG) as Array<
+									keyof typeof PRIORITY_CONFIG
+								>
+							).map((priority) => (
+								<ContextMenuItem
+									key={priority}
+									onClick={() =>
+										updateMutation.mutate({
+											id: taskId,
+											priority,
+										})
+									}
+								>
+									{t(`boards.task.priorities.${priority}`)}
+								</ContextMenuItem>
+							))}
+						</ContextMenuSubContent>
+					</ContextMenuSub>
+				)}
 
-				{otherColumns.length > 0 && (
+				{canMove && otherColumns.length > 0 && (
 					<ContextMenuSub>
 						<ContextMenuSubTrigger>
 							{t("boards.task.contextMenu.moveToColumn")}
@@ -137,23 +145,33 @@ export function KanbanTaskContextMenu({
 					</ContextMenuSub>
 				)}
 
-				<ContextMenuSeparator />
+				{canEdit && (
+					<>
+						<ContextMenuSeparator />
 
-				<ContextMenuItem
-					variant="destructive"
-					onClick={() =>
-						confirm({
-							title: t("boards.task.delete.confirmTitle"),
-							message: t("boards.task.delete.confirmMessage"),
-							destructive: true,
-							onConfirm: async () => {
-								await deleteMutation.mutateAsync({ id: taskId });
-							},
-						})
-					}
-				>
-					{t("boards.task.contextMenu.delete")}
-				</ContextMenuItem>
+						<ContextMenuItem
+							variant="destructive"
+							onClick={() =>
+								confirm({
+									title: t(
+										"boards.task.delete.confirmTitle",
+									),
+									message: t(
+										"boards.task.delete.confirmMessage",
+									),
+									destructive: true,
+									onConfirm: async () => {
+										await deleteMutation.mutateAsync({
+											id: taskId,
+										});
+									},
+								})
+							}
+						>
+							{t("boards.task.contextMenu.delete")}
+						</ContextMenuItem>
+					</>
+				)}
 			</ContextMenuContent>
 		</ContextMenu>
 	);

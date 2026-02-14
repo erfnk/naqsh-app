@@ -2,7 +2,7 @@ import { ORPCError } from "@orpc/server";
 import { db, deleteColumn as deleteColumnFn } from "@repo/database";
 import { z } from "zod";
 import { protectedProcedure } from "../../../orpc/procedures";
-import { verifyBoardOwner } from "../lib/board-access";
+import { verifyBoardAccess } from "../lib/board-access";
 
 export const deleteColumn = protectedProcedure
 	.route({
@@ -23,7 +23,15 @@ export const deleteColumn = protectedProcedure
 			throw new ORPCError("NOT_FOUND");
 		}
 
-		await verifyBoardOwner(column.boardId, user.id);
+		const { permissions } = await verifyBoardAccess(
+			column.boardId,
+			user.id,
+		);
+
+		if (!permissions.canManageColumns) {
+			throw new ORPCError("FORBIDDEN");
+		}
+
 		await deleteColumnFn(id);
 		return { success: true };
 	});

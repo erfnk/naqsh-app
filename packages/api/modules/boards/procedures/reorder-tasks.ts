@@ -23,7 +23,15 @@ export const reorderTasks = protectedProcedure
 			throw new ORPCError("NOT_FOUND");
 		}
 
-		await verifyBoardAccess(column.boardId, user.id);
+		const { permissions } = await verifyBoardAccess(
+			column.boardId,
+			user.id,
+		);
+
+		if (!permissions.canMoveAnyTask) {
+			throw new ORPCError("FORBIDDEN");
+		}
+
 		await reorderTasksFn(input.columnId, input.taskOrders);
 		return { success: true };
 	});

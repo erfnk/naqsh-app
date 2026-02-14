@@ -12,6 +12,7 @@ import {
 	Label,
 	Textarea,
 } from "@repo/ui";
+import { Switch } from "@repo/ui/components/switch";
 import { orpc } from "@shared/lib/orpc-query-utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
@@ -25,6 +26,7 @@ import { toastError, toastSuccess } from "@repo/ui/components/toast";
 const formSchema = z.object({
 	title: z.string().min(1).max(100),
 	description: z.string().max(500).optional(),
+	shared: z.boolean().default(false),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -41,17 +43,22 @@ export function CreateBoardDialog({
 	const t = useTranslations();
 	const router = useRouter();
 	const queryClient = useQueryClient();
-	const { activeOrganization } = useActiveOrganization();
+	const { activeOrganization, isOrganizationAdmin } =
+		useActiveOrganization();
 
 	const {
 		register,
 		handleSubmit,
 		reset,
+		watch,
+		setValue,
 		formState: { errors },
 	} = useForm<FormValues>({
 		resolver: zodResolver(formSchema),
-		defaultValues: { title: "", description: "" },
+		defaultValues: { title: "", description: "", shared: false },
 	});
+
+	const isShared = watch("shared");
 
 	const createMutation = useMutation(
 		orpc.boards.create.mutationOptions(),
@@ -62,7 +69,9 @@ export function CreateBoardDialog({
 
 		try {
 			const board = await createMutation.mutateAsync({
-				...values,
+				title: values.title,
+				description: values.description,
+				visibility: values.shared ? "public" : "private",
 				organizationId: activeOrganization.id,
 			});
 
@@ -116,6 +125,26 @@ export function CreateBoardDialog({
 							rows={3}
 						/>
 					</div>
+
+					{isOrganizationAdmin && (
+						<div className="flex items-center justify-between rounded-lg border p-3">
+							<div className="space-y-0.5">
+								<Label htmlFor="shared">
+									{t("boards.create.shared")}
+								</Label>
+								<p className="text-muted-foreground text-xs">
+									{t("boards.create.sharedDescription")}
+								</p>
+							</div>
+							<Switch
+								id="shared"
+								checked={isShared}
+								onCheckedChange={(checked) =>
+									setValue("shared", checked)
+								}
+							/>
+						</div>
+					)}
 
 					<DialogFooter>
 						<Button

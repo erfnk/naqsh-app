@@ -1,5 +1,6 @@
 "use client";
 
+import type { BoardPermissions } from "@repo/api/modules/boards/types";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "@repo/ui";
@@ -44,6 +45,7 @@ interface KanbanColumnProps {
 	onReorder: (columnId: string, taskIds: string[]) => void;
 	onMove: (taskId: string, targetColumnId: string, position: number) => void;
 	onCreateTask: (columnId: string) => void;
+	permissions?: BoardPermissions;
 }
 
 export function KanbanColumn({
@@ -56,14 +58,18 @@ export function KanbanColumn({
 	onReorder,
 	onMove,
 	onCreateTask,
+	permissions,
 }: KanbanColumnProps) {
+	const canDrag = permissions?.canMoveAnyTask !== false;
 	const { dragAndDropHooks } = useDragAndDrop({
-		getItems: (keys) =>
-			[...keys].map((key) => ({
-				"text/plain": key.toString(),
-				"task-id": key.toString(),
-			})),
-		acceptedDragTypes: ["task-id"],
+		getItems: canDrag
+			? (keys) =>
+					[...keys].map((key) => ({
+						"text/plain": key.toString(),
+						"task-id": key.toString(),
+					}))
+			: () => [],
+		acceptedDragTypes: canDrag ? ["task-id"] : [],
 		getDropOperation: () => "move",
 		onReorder: (e) => {
 			const movedKeys = [...e.keys].map(String);
@@ -148,6 +154,7 @@ export function KanbanColumn({
 				title={column.title}
 				taskCount={tasks.length}
 				onAddTask={() => onCreateTask(column.id)}
+				canCreateTask={permissions?.canCreateTasks !== false}
 			/>
 
 			<div className="flex flex-1 flex-col rounded-xl border border-border/50 bg-muted/30 p-2">
@@ -184,6 +191,7 @@ export function KanbanColumn({
 								boardId={boardId}
 								currentColumnId={column.id}
 								columns={allColumns}
+								permissions={permissions}
 								onEdit={() =>
 									onTaskClick(
 										// biome-ignore lint/style/noNonNullAssertion: <explanation >

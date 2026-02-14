@@ -1,11 +1,8 @@
 import { ORPCError } from "@orpc/server";
-import {
-	getBoardBySlug,
-	getOrganizationMembership,
-	upsertBoardAccess,
-} from "@repo/database";
+import { getBoardBySlug, upsertBoardAccess } from "@repo/database";
 import { z } from "zod";
 import { protectedProcedure } from "../../../orpc/procedures";
+import { verifyBoardAccess } from "../lib/board-access";
 
 export const getBoardBySlugProcedure = protectedProcedure
 	.route({
@@ -22,30 +19,21 @@ export const getBoardBySlugProcedure = protectedProcedure
 			organizationSlug: z.string(),
 		}),
 	)
-	.handler(async ({ context: { user }, input: { slug, organizationSlug } }) => {
-		const board = await getBoardBySlug(slug, organizationSlug);
+	.handler(
+		async ({ context: { user }, input: { slug, organizationSlug } }) => {
+			const board = await getBoardBySlug(slug, organizationSlug);
 
-		if (!board) {
-			throw new ORPCError("NOT_FOUND");
-		}
+			if (!board) {
+				throw new ORPCError("NOT_FOUND");
+			}
 
-		// Verify the user is either the creator or a member of the board's organization
-		if (board.createdById !== user.id) {
-			const membership = await getOrganizationMembership(
-				board.organizationId,
+			const { boardRole, permissions } = await verifyBoardAccess(
+				board.id,
 				user.id,
 			);
 
-			if (!membership) {
-				throw new ORPCError("FORBIDDEN");
-			}
+			await upsertBoardAccess(board.id, user.id);
 
-			if (board.visibility !== "public") {
-				throw new ORPCError("FORBIDDEN");
-			}
-		}
-
-		await upsertBoardAccess(board.id, user.id);
-
-		return { ...board, userRole: board.createdById === user.id ? "owner" as const : "viewer" as const };
-	});
+			return { ...board, userRole: boardRole, permissions };
+		},
+	);

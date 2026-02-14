@@ -42,7 +42,20 @@ export function OnboardingForm() {
 		});
 
 		await clearCache();
-		router.replace(redirectTo ?? "/app");
+
+		if (redirectTo) {
+			router.replace(redirectTo);
+			return;
+		}
+
+		const { data: organizations } =
+			await authClient.organization.list();
+		const org = organizations?.[0];
+		if (org) {
+			router.replace(`/app/${org.slug}`);
+		} else {
+			router.replace("/new-organization");
+		}
 	};
 
 	const steps = [

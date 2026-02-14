@@ -1,7 +1,7 @@
 import { ORPCError } from "@orpc/server";
 import { db, updateColumn as updateColumnFn } from "@repo/database";
 import { protectedProcedure } from "../../../orpc/procedures";
-import { verifyBoardOwner } from "../lib/board-access";
+import { verifyBoardAccess } from "../lib/board-access";
 import { updateColumnSchema } from "../types";
 
 export const updateColumn = protectedProcedure
@@ -23,6 +23,14 @@ export const updateColumn = protectedProcedure
 			throw new ORPCError("NOT_FOUND");
 		}
 
-		await verifyBoardOwner(column.boardId, user.id);
+		const { permissions } = await verifyBoardAccess(
+			column.boardId,
+			user.id,
+		);
+
+		if (!permissions.canManageColumns) {
+			throw new ORPCError("FORBIDDEN");
+		}
+
 		return updateColumnFn(input);
 	});

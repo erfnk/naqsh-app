@@ -18,7 +18,14 @@ export const createTask = protectedProcedure
 	})
 	.input(createTaskSchema)
 	.handler(async ({ context: { user }, input }) => {
-		await verifyBoardAccess(input.boardId, user.id);
+		const { permissions } = await verifyBoardAccess(
+			input.boardId,
+			user.id,
+		);
+
+		if (!permissions.canCreateTasks) {
+			throw new ORPCError("FORBIDDEN");
+		}
 
 		// Verify the column belongs to this board
 		const column = await db.column.findUnique({

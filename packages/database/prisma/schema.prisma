@@ -42,6 +42,7 @@ model User {
   boardAccesses      BoardAccess[]
   assignedTasks      Task[]          @relation("taskAssignee")
   createdTasks       Task[]          @relation("taskCreator")
+  taskComments       TaskComment[]   @relation("commentAuthor")
 
   @@unique([email])
   @@unique([username])
@@ -264,13 +265,29 @@ model Task {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  column      Column   @relation(fields: [columnId], references: [id], onDelete: Cascade)
-  board       Board    @relation(fields: [boardId], references: [id], onDelete: Cascade)
-  assignee    User?    @relation("taskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
-  createdBy   User     @relation("taskCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  column      Column        @relation(fields: [columnId], references: [id], onDelete: Cascade)
+  board       Board         @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  assignee    User?         @relation("taskAssignee", fields: [assigneeId], references: [id], onDelete: SetNull)
+  createdBy   User          @relation("taskCreator", fields: [createdById], references: [id], onDelete: Cascade)
+  comments    TaskComment[]
 
   @@index([columnId])
   @@index([boardId])
   @@index([assigneeId])
   @@map("task")
+}
+
+model TaskComment {
+  id        String   @id @default(cuid())
+  taskId    String
+  authorId  String
+  content   String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  author    User     @relation("commentAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([taskId])
+  @@map("task_comment")
 }

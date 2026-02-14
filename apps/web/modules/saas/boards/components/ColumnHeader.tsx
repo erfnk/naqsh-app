@@ -9,12 +9,14 @@ interface ColumnHeaderProps {
 	title: string;
 	taskCount: number;
 	onAddTask: () => void;
+	canCreateTask?: boolean;
 }
 
 export function ColumnHeader({
 	title,
 	taskCount,
 	onAddTask,
+	canCreateTask = true,
 }: ColumnHeaderProps) {
 	const t = useTranslations();
 
@@ -27,19 +29,21 @@ export function ColumnHeader({
 					{taskCount}
 				</span>
 			</div>
-			<Button
-				variant="ghost"
-				size="icon-sm"
-				onClick={onAddTask}
-				aria-label={t("boards.columns.addTask")}
-				className="opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
-			>
-				<HugeiconsIcon
-					icon={PlusSignIcon}
-					className="size-4"
-					strokeWidth={2}
-				/>
-			</Button>
+			{canCreateTask && (
+				<Button
+					variant="ghost"
+					size="icon-sm"
+					onClick={onAddTask}
+					aria-label={t("boards.columns.addTask")}
+					className="opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+				>
+					<HugeiconsIcon
+						icon={PlusSignIcon}
+						className="size-4"
+						strokeWidth={2}
+					/>
+				</Button>
+			)}
 		</div>
 	);
 }

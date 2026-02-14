@@ -1,5 +1,5 @@
 import { config } from "@repo/auth/config";
-import { getSession } from "@saas/auth/lib/server";
+import { getOrganizationList, getSession } from "@saas/auth/lib/server";
 import { OnboardingForm } from "@saas/onboarding/components/OnboardingForm";
 import { AuthWrapper } from "@saas/shared/components/AuthWrapper";
 import { redirect } from "next/navigation";
@@ -24,7 +24,12 @@ export default async function OnboardingPage() {
 	}
 
 	if (!config.users.enableOnboarding || session.user.onboardingComplete) {
-		redirect("/app");
+		const organizations = await getOrganizationList();
+		const org =
+			organizations.find(
+				(o) => o.id === session.session.activeOrganizationId,
+			) || organizations[0];
+		redirect(org ? `/app/${org.slug}` : "/app");
 	}
 
 	return (

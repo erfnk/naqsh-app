@@ -12,19 +12,25 @@ export function OrganizationRoleSelect({
 	value,
 	onSelect,
 	disabled,
+	allowedRoles,
 }: {
 	value?: OrganizationMemberRole;
 	onSelect: (value: OrganizationMemberRole) => void;
 	disabled?: boolean;
+	allowedRoles?: OrganizationMemberRole[];
 }) {
 	const organizationMemberRoles = useOrganizationMemberRoles();
 
-	const roleOptions = Object.entries(organizationMemberRoles).map(
-		([value, label]) => ({
+	const roleOptions = Object.entries(organizationMemberRoles)
+		.filter(
+			([role]) =>
+				!allowedRoles ||
+				allowedRoles.includes(role as OrganizationMemberRole),
+		)
+		.map(([value, label]) => ({
 			value,
 			label,
-		}),
-	);
+		}));
 
 	return (
 		<Select value={value} onValueChange={(value) => onSelect(value as OrganizationMemberRole)} disabled={disabled}>
