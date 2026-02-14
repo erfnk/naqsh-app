@@ -18,9 +18,9 @@
 
 ## Overview
 
-Naqsh is a production-ready, full-stack SaaS application that demonstrates modern web development best practices. It features a rich Kanban board for multi-tenant task management, complete authentication flows, subscription billing, and an admin panel — all built with a type-safe, server-first architecture.
+Naqsh is a production-ready, full-stack SaaS application that demonstrates modern web development best practices. It features a rich Kanban board for multi-tenant task management with role-based access control, complete authentication flows, and an admin panel — all built with a type-safe, server-first architecture.
 
-Built on the [Supastarter](https://supastarter.dev) boilerplate as the foundation, extended with a full Kanban board feature, drag-and-drop interactions, mobile-optimized views, and a redesigned board-centric sidebar.
+Built on the [Supastarter](https://supastarter.dev) boilerplate as the foundation, extended with a full Kanban board feature, drag-and-drop interactions, RBAC permissions, task comments, mobile-optimized views, and a redesigned board-centric sidebar.
 
 **Author**: [Erfan S. Khodadadi](https://github.com/erfnk)
 
@@ -28,16 +28,45 @@ Built on the [Supastarter](https://supastarter.dev) boilerplate as the foundatio
 
 ## Features
 
-- **Kanban Boards** — Drag-and-drop task management with columns, priorities, assignees, and real-time optimistic updates. Full keyboard accessibility via React Aria.
-- **Multi-Tenant Organizations** — Create and manage organizations with role-based access control, member invitations, and organization-scoped data isolation.
-- **Authentication** — Email/password, Google OAuth, passkeys (WebAuthn), magic links, and two-factor authentication powered by Better Auth.
-- **Subscription Billing** — Stripe integration with plan management, usage-based billing, and a customer portal.
-- **Admin Panel** — User and organization management for administrators.
-- **Internationalization** — Multi-language support with next-intl and locale-aware routing.
-- **Mobile Responsive** — Touch-friendly swipe navigation for Kanban boards, optimized for all screen sizes.
-- **Type-Safe API** — End-to-end TypeScript with oRPC for type-safe RPC calls between client and server.
-- **Accessible UI** — WCAG-compliant components built on Base UI and React Aria primitives.
-- **SEO Ready** — Server-rendered pages with proper metadata, Open Graph tags, and semantic HTML.
+### Kanban Boards
+- Drag-and-drop task management with columns, priorities, assignees, and optimistic updates
+- Full keyboard accessibility via React Aria
+- **Private boards** — visible only to the creator
+- **Shared/public boards** — visible to all organization members with role-based permissions
+- **Task comments** — threaded comments on tasks with inline editing and admin moderation
+- Near-real-time updates via 10-second polling
+
+### Role-Based Access Control (RBAC)
+Three-tier role hierarchy enforced at both API and UI levels:
+
+| Role | Board Permissions | Org Permissions |
+|------|------------------|-----------------|
+| **Owner** | Full access to all boards | Manage members, assign admin/member roles |
+| **Admin** | Manage columns and tasks on shared boards, create shared boards | Manage members, assign member roles |
+| **Member** | View shared boards, move/update own assigned tasks, comment | View-only for org settings |
+
+- Board creators always have full permissions on their own boards
+- Members can move their own assigned tasks between columns and leave comments
+- Admins can manage columns, create/edit/delete any task on shared boards
+- Role assignment is hierarchical — you can only assign roles below your own
+
+### Multi-Tenant Routing
+- Organization-scoped URLs (`/app/{org-slug}/...`) inspired by Linear and Notion
+- Automatic redirect from `/app` to the user's active organization
+- Invited users are routed through onboarding before landing in the org
+- Edge proxy handles session checks and auth redirects
+
+### Authentication
+- Email/password, Google OAuth, passkeys (WebAuthn), magic links, and two-factor authentication powered by Better Auth
+- Organization invitations with automatic onboarding flow
+
+### Additional
+- **Admin Panel** — User and organization management for administrators
+- **Internationalization** — Multi-language support with next-intl and locale-aware routing
+- **Mobile Responsive** — Touch-friendly swipe navigation for Kanban boards, optimized for all screen sizes
+- **Type-Safe API** — End-to-end TypeScript with oRPC for type-safe RPC calls between client and server
+- **Accessible UI** — WCAG-compliant components built on Base UI and React Aria primitives
+- **SEO Ready** — Server-rendered pages with proper metadata, Open Graph tags, and semantic HTML
 
 ---
 
@@ -65,10 +94,9 @@ Built on the [Supastarter](https://supastarter.dev) boilerplate as the foundatio
 | Technology | Purpose |
 |-----------|---------|
 | [oRPC](https://orpc.unnoq.com/) | Type-safe RPC layer |
-| [Better Auth](https://www.better-auth.com/) | Authentication (email, OAuth, passkeys, 2FA) |
+| [Better Auth](https://www.better-auth.com/) | Authentication (email, OAuth, passkeys, 2FA, organizations) |
 | [Prisma](https://www.prisma.io/) | Database ORM |
 | [PostgreSQL](https://www.postgresql.org/) | Relational database |
-| [Stripe](https://stripe.com/) | Payment processing |
 | [Resend](https://resend.com/) / SMTP | Email delivery |
 | [S3-compatible storage](https://min.io/) | File uploads (MinIO for development) |
 
@@ -151,23 +179,24 @@ naqsh/
 │       │   ├── (saas)/             # Protected SaaS application
 │       │   ├── auth/               # Authentication flows
 │       │   └── api/                # API route handlers
+│       ├── proxy.ts                # Edge proxy (session checks, auth redirects)
 │       └── modules/                # Feature modules
 │           ├── marketing/          # Marketing components
 │           ├── saas/               # SaaS features
-│           │   ├── boards/         # Kanban board components
+│           │   ├── boards/         # Kanban board + permissions UI
 │           │   ├── auth/           # Auth components
+│           │   ├── onboarding/     # User onboarding flow
 │           │   ├── organizations/  # Organization management
 │           │   ├── settings/       # User settings
-│           │   ├── payments/       # Billing UI
 │           │   └── admin/          # Admin panel
 │           └── shared/             # Shared components and utilities
 ├── packages/
 │   ├── api/                        # oRPC API layer
-│   ├── auth/                       # Better Auth configuration
+│   │   └── modules/boards/         # Board procedures + permission checks
+│   ├── auth/                       # Better Auth config + role helpers
 │   ├── database/                   # Prisma schema and queries
 │   ├── i18n/                       # Internationalization
 │   ├── mail/                       # Email templates (React Email)
-│   ├── payments/                   # Stripe integration
 │   ├── storage/                    # S3 file storage
 │   ├── ui/                         # Shadcn UI component library
 │   └── utils/                      # Shared utilities
@@ -203,9 +232,13 @@ pnpm add <package> --filter @repo/database  # Add to database package
 
 ## Architecture
 
-### Multi-Tenancy
+### Multi-Tenancy & Routing
 
-Organizations provide data isolation with role-based access control. Boards can be private (creator-only) or public (visible to all organization members).
+Organizations provide data isolation with role-based access control. Users always land in their organization scope (`/app/{org-slug}`). The edge proxy in `proxy.ts` handles session validation, redirecting unauthenticated users to login and routing authenticated users to their active organization. Invited users are guided through onboarding before accessing the org workspace.
+
+### RBAC & Board Permissions
+
+The role system is built on a three-tier hierarchy (owner > admin > member) defined in `packages/auth/lib/roles.ts`. Board access is controlled through a `BoardPermissions` interface with 10 granular permission flags, computed by `verifyBoardAccess()` based on the user's org role and relationship to the board. Permission checks happen at both the API layer (oRPC procedures) and the UI layer (conditionally rendering controls, disabling drag-and-drop, hiding action buttons).
 
 ### Type Safety
 
@@ -217,7 +250,7 @@ React Server Components are the default. Client components are used only for int
 
 ### Accessibility
 
-All interactive components are built on Base UI and React Aria primitives, providing keyboard navigation, screen reader support, and WCAG compliance out of the box.
+All interactive components are built on Base UI and React Aria primitives, providing keyboard navigation, screen reader support, and WCAG compliance out of the box. The Kanban board supports full keyboard drag-and-drop (Space to grab, Arrow keys to move, Enter to drop).
 
 ---
 
@@ -231,13 +264,15 @@ For major changes, please open an issue first to discuss what you would like to 
 
 See [CLAUDE.md](./CLAUDE.md) for comprehensive coding guidelines, architectural patterns, and a full-stack feature implementation reference.
 
+See [agents.md](./agents.md) for detailed documentation on the RBAC system, board permissions model, and multi-tenant routing flow.
+
 ---
 
 ## Credits
 
 Built by **[Erfan S. Khodadadi](https://github.com/erfnk)**.
 
-This project uses the [Supastarter](https://supastarter.dev) boilerplate as its foundation, extended with custom features including the Kanban board system, board-centric sidebar, and mobile-optimized views.
+This project uses the [Supastarter](https://supastarter.dev) boilerplate as its foundation, extended with custom features including the Kanban board system, RBAC permissions, task comments, board-centric sidebar, and mobile-optimized views.
 
 ### Key Technologies
 
@@ -245,10 +280,9 @@ This project uses the [Supastarter](https://supastarter.dev) boilerplate as its 
 - [Supastarter](https://supastarter.dev) — SaaS boilerplate
 - [Shadcn UI](https://ui.shadcn.com/) — Component library
 - [Base UI](https://base-ui.com/) — Accessible primitives
-- [Better Auth](https://www.better-auth.com/) — Authentication
+- [Better Auth](https://www.better-auth.com/) — Authentication & organizations
 - [oRPC](https://orpc.unnoq.com/) — Type-safe RPC
 - [Prisma](https://www.prisma.io/) — Database ORM
-- [Stripe](https://stripe.com/) — Payment processing
 - [React Aria](https://react-spectrum.adobe.com/react-aria/) — Accessibility & DnD
 - [TanStack Query](https://tanstack.com/query) — Data fetching
 
