@@ -38,7 +38,12 @@ async function generateUniqueSlug(
 export async function getBoardForAccessCheck(id: string) {
 	return db.board.findUnique({
 		where: { id },
-		select: { id: true, organizationId: true, createdById: true, visibility: true },
+		select: {
+			id: true,
+			organizationId: true,
+			createdById: true,
+			visibility: true,
+		},
 	});
 }
 
@@ -61,7 +66,14 @@ export async function createBoard({
 
 	return db.$transaction(async (tx) => {
 		const board = await tx.board.create({
-			data: { title, slug, description, organizationId, createdById, visibility },
+			data: {
+				title,
+				slug,
+				description,
+				organizationId,
+				createdById,
+				visibility,
+			},
 		});
 
 		const defaultColumns = [
@@ -155,7 +167,10 @@ export async function updateBoard(
 			where: { id },
 			select: { organizationId: true },
 		});
-		const slug = await generateUniqueSlug(data.title, existing.organizationId);
+		const slug = await generateUniqueSlug(
+			data.title,
+			existing.organizationId,
+		);
 		return db.board.update({
 			where: { id },
 			data: { ...data, slug },
@@ -192,10 +207,7 @@ export async function getFavoriteBoards(
 	});
 }
 
-export async function getRecentBoards(
-	userId: string,
-	organizationId: string,
-) {
+export async function getRecentBoards(userId: string, organizationId: string) {
 	return db.board.findMany({
 		where: {
 			organizationId,
@@ -209,18 +221,12 @@ export async function getRecentBoards(
 				select: { lastAccessedAt: true },
 			},
 		},
-		orderBy: [
-			{ accesses: { _count: "desc" } },
-			{ updatedAt: "desc" },
-		],
+		orderBy: [{ accesses: { _count: "desc" } }, { updatedAt: "desc" }],
 		take: 20,
 	});
 }
 
-export async function getSharedBoards(
-	userId: string,
-	organizationId: string,
-) {
+export async function getSharedBoards(userId: string, organizationId: string) {
 	return db.board.findMany({
 		where: {
 			organizationId,
@@ -296,7 +302,7 @@ export async function deleteColumn(id: string) {
 }
 
 export async function reorderColumns(
-	boardId: string,
+	_boardId: string,
 	columnOrders: { id: string; position: number }[],
 ) {
 	return db.$transaction(
@@ -420,7 +426,7 @@ export async function moveTask(
 }
 
 export async function reorderTasks(
-	columnId: string,
+	_columnId: string,
 	taskOrders: { id: string; position: number }[],
 ) {
 	return db.$transaction(
@@ -444,13 +450,36 @@ export async function getNextTaskPosition(columnId: string) {
 
 // ── Organization Members (for assignee picker) ─────────────────────────
 
-export async function getOrganizationMembersWithUsers(
-	organizationId: string,
-) {
+export async function getOrganizationMembersWithUsers(organizationId: string) {
 	return db.member.findMany({
 		where: { organizationId },
 		include: {
-			user: { select: { id: true, name: true, email: true, image: true } },
+			user: {
+				select: { id: true, name: true, email: true, image: true },
+			},
 		},
+	});
+}
+
+// ── Recent Tasks (for dashboard) ────────────────────────────────────────
+
+export async function getRecentUserTasks(
+	userId: string,
+	organizationId: string,
+	limit = 5,
+) {
+	return db.task.findMany({
+		where: {
+			assigneeId: userId,
+			board: {
+				organizationId,
+				OR: [{ createdById: userId }, { visibility: "public" }],
+			},
+		},
+		include: {
+			board: { select: { id: true, title: true, slug: true } },
+		},
+		orderBy: { updatedAt: "desc" },
+		take: limit,
 	});
 }

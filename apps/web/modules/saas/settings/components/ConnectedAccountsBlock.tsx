@@ -1,4 +1,6 @@
 "use client";
+import { CheckmarkCircle02Icon, Link01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { authClient } from "@repo/auth/client";
 import { Button } from "@repo/ui/components/button";
 import { Skeleton } from "@repo/ui/components/skeleton";
@@ -8,8 +10,6 @@ import {
 } from "@saas/auth/constants/oauth-providers";
 import { useUserAccountsQuery } from "@saas/auth/lib/api";
 import { SettingsItem } from "@saas/shared/components/SettingsItem";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { CheckmarkCircle02Icon, Link01Icon } from "@hugeicons/core-free-icons";
 import { useTranslations } from "next-intl";
 
 export function ConnectedAccountsBlock() {
@@ -55,7 +55,11 @@ export function ConnectedAccountsBlock() {
 								{isPending ? (
 									<Skeleton className="h-10 w-28" />
 								) : isLinked ? (
-									<HugeiconsIcon icon={CheckmarkCircle02Icon} className="size-6 text-success" strokeWidth={2} />
+									<HugeiconsIcon
+										icon={CheckmarkCircle02Icon}
+										className="size-6 text-success"
+										strokeWidth={2}
+									/>
 								) : (
 									<Button
 										variant={
@@ -67,7 +71,11 @@ export function ConnectedAccountsBlock() {
 											)
 										}
 									>
-										<HugeiconsIcon icon={Link01Icon} className="mr-1.5 size-4" strokeWidth={2} />
+										<HugeiconsIcon
+											icon={Link01Icon}
+											className="mr-1.5 size-4"
+											strokeWidth={2}
+										/>
 										<span>
 											{t(
 												"settings.account.security.connectedAccounts.connect",

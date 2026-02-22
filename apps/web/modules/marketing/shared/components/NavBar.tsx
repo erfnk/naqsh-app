@@ -1,5 +1,7 @@
 "use client";
 
+import { Menu01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { LocaleLink, useLocalePathname } from "@i18n/routing";
 import { cn, Logo } from "@repo/ui";
 import { Button } from "@repo/ui/components/button";
@@ -12,8 +14,6 @@ import {
 import { useSession } from "@saas/auth/hooks/use-session";
 import { ColorModeToggle } from "@shared/components/ColorModeToggle";
 import { LocaleSwitch } from "@shared/components/LocaleSwitch";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Menu01Icon } from "@hugeicons/core-free-icons";
 import NextLink from "next/link";
 import { useTranslations } from "next-intl";
 import { Suspense, useEffect, useState } from "react";
@@ -55,19 +55,14 @@ export function NavBar() {
 	const menuItems: {
 		label: string;
 		href: string;
-	}[] = [
-		{
-			label: t("common.menu.contact"),
-			href: "/contact",
-		},
-	];
+	}[] = [];
 
 	const isMenuItemActive = (href: string) => localePathname.startsWith(href);
 
 	return (
 		<nav
 			className={cn(
-				"sticky top-0 z-50 w-full transition-shadow duration-200 bg-background",
+				"sticky top-0 z-50 w-full bg-background transition-shadow duration-200",
 				{ "border-b": !isTop },
 			)}
 			data-test="navigation"
@@ -123,7 +118,11 @@ export function NavBar() {
 									variant="secondary"
 									aria-label="Menu"
 								>
-									<HugeiconsIcon icon={Menu01Icon} className="size-4" strokeWidth={2} />
+									<HugeiconsIcon
+										icon={Menu01Icon}
+										className="size-4"
+										strokeWidth={2}
+									/>
 								</Button>
 							</SheetTrigger>
 							<SheetContent className="w-[280px]" side="right">

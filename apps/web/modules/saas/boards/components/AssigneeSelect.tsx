@@ -1,14 +1,9 @@
 "use client";
 
-import {
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-} from "@repo/ui";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@repo/ui";
 import { useActiveOrganization } from "@saas/organizations/hooks/use-active-organization";
-import { orpc } from "@shared/lib/orpc-query-utils";
 import { UserAvatar } from "@shared/components/UserAvatar";
+import { orpc } from "@shared/lib/orpc-query-utils";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 

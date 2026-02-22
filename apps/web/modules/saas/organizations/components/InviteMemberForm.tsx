@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@shared/lib/zod-form-resolver";
 import type { OrganizationMemberRole } from "@repo/auth";
 import { authClient } from "@repo/auth/client";
 import { getAssignableRoles } from "@repo/auth/lib/roles";
@@ -18,6 +17,7 @@ import { OrganizationRoleSelect } from "@saas/organizations/components/Organizat
 import { useActiveOrganization } from "@saas/organizations/hooks/use-active-organization";
 import { fullOrganizationQueryKey } from "@saas/organizations/lib/api";
 import { SettingsItem } from "@saas/shared/components/SettingsItem";
+import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";

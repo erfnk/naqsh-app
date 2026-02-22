@@ -9,7 +9,6 @@ const nextConfig: NextConfig = {
 	experimental: {
 		optimizePackageImports: [
 			"@hugeicons/core-free-icons",
-			"recharts",
 			"react-aria-components",
 		],
 	},

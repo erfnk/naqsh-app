@@ -48,8 +48,7 @@ export function OnboardingForm() {
 			return;
 		}
 
-		const { data: organizations } =
-			await authClient.organization.list();
+		const { data: organizations } = await authClient.organization.list();
 		const org = organizations?.[0];
 		if (org) {
 			router.replace(`/app/${org.slug}`);

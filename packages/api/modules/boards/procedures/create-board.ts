@@ -1,6 +1,6 @@
 import { ORPCError } from "@orpc/server";
-import { createBoard as createBoardFn } from "@repo/database";
 import { hasMinRole } from "@repo/auth/lib/roles";
+import { createBoard as createBoardFn } from "@repo/database";
 import { protectedProcedure } from "../../../orpc/procedures";
 import { verifyOrganizationMembership } from "../../organizations/lib/membership";
 import { createBoardSchema } from "../types";

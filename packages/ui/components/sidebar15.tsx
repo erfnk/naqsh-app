@@ -55,7 +55,10 @@ interface Sidebar15Props {
 const SidebarNavMenuItem = ({
 	item,
 	linkComponent: LinkComponent = "a",
-}: { item: NavItem; linkComponent?: ElementType }) => {
+}: {
+	item: NavItem;
+	linkComponent?: ElementType;
+}) => {
 	if (!item.children?.length) {
 		return (
 			<SidebarMenuItem>
@@ -158,7 +161,7 @@ function Sidebar15({
 					/>
 					{breadcrumbs}
 				</header>
-				<div className="flex flex-1 flex-col min-w-0">{children}</div>
+				<div className="flex min-w-0 flex-1 flex-col">{children}</div>
 			</SidebarInset>
 		</SidebarProvider>
 	);

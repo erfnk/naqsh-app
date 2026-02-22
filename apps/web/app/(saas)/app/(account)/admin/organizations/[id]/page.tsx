@@ -1,3 +1,5 @@
+import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { auth } from "@repo/auth";
 import { Button } from "@repo/ui";
 import { OrganizationForm } from "@saas/admin/component/organizations/OrganizationForm";
@@ -5,8 +7,6 @@ import { getAdminPath } from "@saas/admin/lib/links";
 import { fullOrganizationQueryKey } from "@saas/organizations/lib/api";
 import { getServerQueryClient } from "@shared/lib/server";
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import { headers } from "next/headers";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
@@ -39,8 +39,21 @@ export default async function OrganizationFormPage({
 		<HydrationBoundary state={dehydrate(queryClient)}>
 			<div>
 				<div className="mb-2 flex justify-start">
-					<Button variant="link" size="sm" render={<Link href={backTo ?? getAdminPath("/organizations")} />} className="px-0">
-						<HugeiconsIcon icon={ArrowLeft01Icon} className="mr-1.5 size-4" strokeWidth={2} />
+					<Button
+						variant="link"
+						size="sm"
+						render={
+							<Link
+								href={backTo ?? getAdminPath("/organizations")}
+							/>
+						}
+						className="px-0"
+					>
+						<HugeiconsIcon
+							icon={ArrowLeft01Icon}
+							className="mr-1.5 size-4"
+							strokeWidth={2}
+						/>
 						{t("admin.organizations.backToList")}
 					</Button>
 				</div>

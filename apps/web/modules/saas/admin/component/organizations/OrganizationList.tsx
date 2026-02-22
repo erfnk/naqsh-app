@@ -1,5 +1,12 @@
 "use client";
 
+import {
+	Delete01Icon,
+	Edit02Icon,
+	MoreVerticalIcon,
+	PlusSignIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { authClient } from "@repo/auth/client";
 import { Button } from "@repo/ui/components/button";
 import { Card } from "@repo/ui/components/card";
@@ -31,8 +38,6 @@ import {
 	getPaginationRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Edit02Icon, MoreVerticalIcon, PlusSignIcon, Delete01Icon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
@@ -168,7 +173,11 @@ export function OrganizationList() {
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button size="icon" variant="ghost">
-										<HugeiconsIcon icon={MoreVerticalIcon} className="size-4" strokeWidth={2} />
+										<HugeiconsIcon
+											icon={MoreVerticalIcon}
+											className="size-4"
+											strokeWidth={2}
+										/>
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent>
@@ -177,7 +186,11 @@ export function OrganizationList() {
 											href={getOrganizationEditPath(id)}
 											className="flex items-center"
 										>
-											<HugeiconsIcon icon={Edit02Icon} className="mr-2 size-4" strokeWidth={2} />
+											<HugeiconsIcon
+												icon={Edit02Icon}
+												className="mr-2 size-4"
+												strokeWidth={2}
+											/>
 											{t("admin.organizations.edit")}
 										</Link>
 									</DropdownMenuItem>
@@ -200,7 +213,11 @@ export function OrganizationList() {
 										}
 									>
 										<span className="flex items-center text-destructive hover:text-destructive">
-											<HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" strokeWidth={2} />
+											<HugeiconsIcon
+												icon={Delete01Icon}
+												className="mr-2 size-4"
+												strokeWidth={2}
+											/>
 											{t("admin.organizations.delete")}
 										</span>
 									</DropdownMenuItem>
@@ -234,8 +251,14 @@ export function OrganizationList() {
 					{t("admin.organizations.title")}
 				</h2>
 
-				<Button render={<Link href={getAdminPath("/organizations/new")} />}>
-					<HugeiconsIcon icon={PlusSignIcon} className="mr-1.5 size-4" strokeWidth={2} />
+				<Button
+					render={<Link href={getAdminPath("/organizations/new")} />}
+				>
+					<HugeiconsIcon
+						icon={PlusSignIcon}
+						className="mr-1.5 size-4"
+						strokeWidth={2}
+					/>
 					{t("admin.organizations.create")}
 				</Button>
 			</div>

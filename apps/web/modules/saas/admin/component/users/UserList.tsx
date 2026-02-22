@@ -1,5 +1,14 @@
 "use client";
 
+import {
+	Delete01Icon,
+	MoreVerticalIcon,
+	RepeatOne01Icon,
+	SecurityCheckIcon,
+	Shield02Icon,
+	UserSquareIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { authClient } from "@repo/auth/client";
 import { Spinner } from "@repo/ui";
 import { Button } from "@repo/ui/components/button";
@@ -30,15 +39,6 @@ import {
 	getPaginationRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { HugeiconsIcon } from "@hugeicons/react";
-import {
-	MoreVerticalIcon,
-	RepeatOne01Icon,
-	SecurityCheckIcon,
-	Shield02Icon,
-	UserSquareIcon,
-	Delete01Icon,
-} from "@hugeicons/core-free-icons";
 import { useTranslations } from "next-intl";
 import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
 import { useEffect, useMemo } from "react";
@@ -219,7 +219,11 @@ export function UserList() {
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button size="icon" variant="ghost">
-										<HugeiconsIcon icon={MoreVerticalIcon} className="size-4" strokeWidth={2} />
+										<HugeiconsIcon
+											icon={MoreVerticalIcon}
+											className="size-4"
+											strokeWidth={2}
+										/>
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent>
@@ -230,7 +234,11 @@ export function UserList() {
 											})
 										}
 									>
-										<HugeiconsIcon icon={UserSquareIcon} className="mr-2 size-4" strokeWidth={2} />
+										<HugeiconsIcon
+											icon={UserSquareIcon}
+											className="mr-2 size-4"
+											strokeWidth={2}
+										/>
 										{t("admin.users.impersonate")}
 									</DropdownMenuItem>
 
@@ -242,7 +250,11 @@ export function UserList() {
 												)
 											}
 										>
-											<HugeiconsIcon icon={RepeatOne01Icon} className="mr-2 size-4" strokeWidth={2} />
+											<HugeiconsIcon
+												icon={RepeatOne01Icon}
+												className="mr-2 size-4"
+												strokeWidth={2}
+											/>
 											{t(
 												"admin.users.resendVerificationMail.title",
 											)}
@@ -255,7 +267,11 @@ export function UserList() {
 												assignAdminRole(row.original.id)
 											}
 										>
-											<HugeiconsIcon icon={SecurityCheckIcon} className="mr-2 size-4" strokeWidth={2} />
+											<HugeiconsIcon
+												icon={SecurityCheckIcon}
+												className="mr-2 size-4"
+												strokeWidth={2}
+											/>
 											{t("admin.users.assignAdminRole")}
 										</DropdownMenuItem>
 									) : (
@@ -264,7 +280,11 @@ export function UserList() {
 												removeAdminRole(row.original.id)
 											}
 										>
-											<HugeiconsIcon icon={Shield02Icon} className="mr-2 size-4" strokeWidth={2} />
+											<HugeiconsIcon
+												icon={Shield02Icon}
+												className="mr-2 size-4"
+												strokeWidth={2}
+											/>
 											{t("admin.users.removeAdminRole")}
 										</DropdownMenuItem>
 									)}
@@ -288,7 +308,11 @@ export function UserList() {
 										}
 									>
 										<span className="flex items-center text-destructive hover:text-destructive">
-											<HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" strokeWidth={2} />
+											<HugeiconsIcon
+												icon={Delete01Icon}
+												className="mr-2 size-4"
+												strokeWidth={2}
+											/>
 											{t("admin.users.delete")}
 										</span>
 									</DropdownMenuItem>

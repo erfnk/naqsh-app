@@ -1,5 +1,7 @@
 "use client";
 
+import { LanguageSquareIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { updateLocale } from "@i18n/lib/update-locale";
 import { useLocalePathname, useLocaleRouter } from "@i18n/routing";
 import type { Locale } from "@repo/i18n";
@@ -12,8 +14,6 @@ import {
 	DropdownMenuRadioItem,
 	DropdownMenuTrigger,
 } from "@repo/ui/components/dropdown-menu";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { LanguageSquareIcon } from "@hugeicons/core-free-icons";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useLocale } from "next-intl";
 import { useState } from "react";
@@ -36,7 +36,11 @@ export function LocaleSwitch({
 		<DropdownMenu modal={false}>
 			<DropdownMenuTrigger asChild>
 				<Button variant="ghost" size="icon" aria-label="Language">
-					<HugeiconsIcon icon={LanguageSquareIcon} className="size-4" strokeWidth={2} />
+					<HugeiconsIcon
+						icon={LanguageSquareIcon}
+						className="size-4"
+						strokeWidth={2}
+					/>
 				</Button>
 			</DropdownMenuTrigger>
 

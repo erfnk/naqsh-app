@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@shared/lib/zod-form-resolver";
 import {
 	Alert02Icon,
 	Key01Icon,
@@ -38,6 +37,7 @@ import { useAuthErrorMessages } from "@saas/auth/hooks/errors-messages";
 import { sessionQueryKey } from "@saas/auth/lib/api";
 import { OrganizationInvitationAlert } from "@saas/organizations/components/OrganizationInvitationAlert";
 import { useRouter } from "@shared/hooks/router";
+import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { useQueryClient } from "@tanstack/react-query";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -257,7 +257,7 @@ export function LoginForm() {
 												</Button>
 											)}
 										</Field>
-										<FieldSeparator className="*:data-[slot=field-separator-content]:bg-card mt-1">
+										<FieldSeparator className="mt-1 *:data-[slot=field-separator-content]:bg-card">
 											{t("auth.login.continueWith")}
 										</FieldSeparator>
 									</>

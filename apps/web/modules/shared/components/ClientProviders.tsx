@@ -28,7 +28,6 @@ export function ClientProviders({ children }: PropsWithChildren) {
 					{children}
 
 					<Toaster position="top-right" />
-					{/* <ConsentBanner /> */}
 					<AnalyticsScript />
 				</ThemeProvider>
 			</ProgressProvider>

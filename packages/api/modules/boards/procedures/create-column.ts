@@ -17,10 +17,7 @@ export const createColumn = protectedProcedure
 	})
 	.input(createColumnSchema)
 	.handler(async ({ context: { user }, input }) => {
-		const { permissions } = await verifyBoardAccess(
-			input.boardId,
-			user.id,
-		);
+		const { permissions } = await verifyBoardAccess(input.boardId, user.id);
 
 		if (!permissions.canManageColumns) {
 			throw new ORPCError("FORBIDDEN");

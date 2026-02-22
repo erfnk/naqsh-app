@@ -1,6 +1,6 @@
-import { Alert, AlertDescription, AlertTitle } from "@repo/ui/components/alert";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { MailValidation01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Alert, AlertDescription, AlertTitle } from "@repo/ui/components/alert";
 import { useTranslations } from "next-intl";
 
 export function OrganizationInvitationAlert({

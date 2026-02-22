@@ -1,8 +1,8 @@
 "use client";
 
-import type { BoardPermissions } from "@repo/api/modules/boards/types";
 import { PlusSignIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
+import type { BoardPermissions } from "@repo/api/modules/boards/types";
 import { cn } from "@repo/ui";
 import { useTranslations } from "next-intl";
 import {
@@ -136,7 +136,7 @@ export function KanbanColumn({
 		renderDropIndicator: (target) => (
 			<DropIndicator
 				target={target}
-				className="outline-primary/60 rounded-sm outline-2 outline-dashed -outline-offset-2"
+				className="rounded-sm outline-dashed outline-2 outline-primary/60 -outline-offset-2"
 			/>
 		),
 	});
@@ -146,7 +146,7 @@ export function KanbanColumn({
 	return (
 		<div
 			className={cn(
-				"flex min-w-[320px] flex-1 flex-col group/column",
+				"group/column flex min-w-[320px] flex-1 flex-col",
 				className,
 			)}
 		>
@@ -174,7 +174,7 @@ export function KanbanColumn({
 							</span>
 						</div>
 					)}
-					className="flex min-h-20 flex-1 flex-col gap-2 select-none"
+					className="flex min-h-20 flex-1 select-none flex-col gap-2"
 				>
 					{(item) => (
 						<GridListItem

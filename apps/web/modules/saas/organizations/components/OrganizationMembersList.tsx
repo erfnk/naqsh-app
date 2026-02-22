@@ -1,4 +1,10 @@
 "use client";
+import {
+	Delete01Icon,
+	Logout01Icon,
+	MoreVerticalIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import type { OrganizationMemberRole } from "@repo/auth";
 import { authClient } from "@repo/auth/client";
 import { isOrganizationAdmin } from "@repo/auth/lib/helper";
@@ -38,8 +44,6 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Logout01Icon, MoreVerticalIcon, Delete01Icon } from "@hugeicons/core-free-icons";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { OrganizationRoleSelect } from "./OrganizationRoleSelect";
@@ -59,7 +63,8 @@ export function OrganizationMembersList({
 
 	const userIsOrganizationAdmin = isOrganizationAdmin(organization, user);
 	const currentUserRole =
-		organization?.members.find((m) => m.userId === user?.id)?.role ?? "member";
+		organization?.members.find((m) => m.userId === user?.id)?.role ??
+		"member";
 	const assignableRoles = getAssignableRoles(
 		currentUserRole,
 	) as OrganizationMemberRole[];
@@ -178,29 +183,37 @@ export function OrganizationMembersList({
 								<DropdownMenu>
 									<DropdownMenuTrigger asChild>
 										<Button size="icon" variant="ghost">
-											<HugeiconsIcon icon={MoreVerticalIcon} className="size-4" strokeWidth={2} />
+											<HugeiconsIcon
+												icon={MoreVerticalIcon}
+												className="size-4"
+												strokeWidth={2}
+											/>
 										</Button>
 									</DropdownMenuTrigger>
 									<DropdownMenuContent>
 										{row.original.userId !== user?.id &&
-										canAssignRole(
-											currentUserRole,
-											row.original.role,
-										) && (
-											<DropdownMenuItem
-												className="text-destructive"
-												onClick={async () =>
-													removeMember(
-														row.original.id,
-													)
-												}
-											>
-												<HugeiconsIcon icon={Delete01Icon} className="mr-2 size-4" strokeWidth={2} />
-												{t(
-													"organizations.settings.members.removeMember",
-												)}
-											</DropdownMenuItem>
-										)}
+											canAssignRole(
+												currentUserRole,
+												row.original.role,
+											) && (
+												<DropdownMenuItem
+													className="text-destructive"
+													onClick={async () =>
+														removeMember(
+															row.original.id,
+														)
+													}
+												>
+													<HugeiconsIcon
+														icon={Delete01Icon}
+														className="mr-2 size-4"
+														strokeWidth={2}
+													/>
+													{t(
+														"organizations.settings.members.removeMember",
+													)}
+												</DropdownMenuItem>
+											)}
 										{row.original.userId === user?.id && (
 											<DropdownMenuItem
 												className="text-destructive"
@@ -210,7 +223,11 @@ export function OrganizationMembersList({
 													)
 												}
 											>
-												<HugeiconsIcon icon={Logout01Icon} className="mr-2 size-4" strokeWidth={2} />
+												<HugeiconsIcon
+													icon={Logout01Icon}
+													className="mr-2 size-4"
+													strokeWidth={2}
+												/>
 												{t(
 													"organizations.settings.members.leaveOrganization",
 												)}

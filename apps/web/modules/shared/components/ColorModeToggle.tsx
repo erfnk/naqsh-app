@@ -1,5 +1,11 @@
 "use client";
 
+import {
+	LaptopSettingsIcon,
+	Moon02Icon,
+	Sun03Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "@repo/ui";
 import {
 	Tooltip,
@@ -7,8 +13,6 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@repo/ui/components/tooltip";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { LaptopSettingsIcon, Moon02Icon, Sun03Icon } from "@hugeicons/core-free-icons";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -62,7 +66,7 @@ export function ColorModeToggle() {
 			>
 				{/* Active indicator */}
 				<div
-					className="absolute left-0.5 top-0.5 h-7 w-7 rounded-full bg-background shadow-sm transition-transform duration-200 ease-in-out border border-border"
+					className="absolute top-0.5 left-0.5 h-7 w-7 rounded-full border border-border bg-background shadow-sm transition-transform duration-200 ease-in-out"
 					style={{
 						transform: `translateX(${activeIndex * 100}%)`,
 					}}
@@ -91,7 +95,11 @@ export function ColorModeToggle() {
 									aria-label={`${label} mode`}
 									aria-pressed={isActive}
 								>
-									<HugeiconsIcon icon={option.icon} className="size-3.5" strokeWidth={2} />
+									<HugeiconsIcon
+										icon={option.icon}
+										className="size-3.5"
+										strokeWidth={2}
+									/>
 								</button>
 							</TooltipTrigger>
 							<TooltipContent>{label}</TooltipContent>

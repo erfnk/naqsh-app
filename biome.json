@@ -23,6 +23,13 @@
 				},
 				"noUnusedFunctionParameters": "warn"
 			},
+			"nursery": {
+				"useSortedClasses": {
+					"level": "warn",
+					"fix": "unsafe",
+					"options": {}
+				}
+			},
 			"style": {
 				"noUnusedTemplateLiteral": {
 					"level": "error",

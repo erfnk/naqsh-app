@@ -1,13 +1,13 @@
 "use client";
 
-import { HugeiconsIcon } from "@hugeicons/react";
 import {
+	Alert02Icon,
+	Cancel01Icon,
 	CheckmarkCircle02Icon,
 	InformationCircleIcon,
 	Loading03Icon,
-	Alert02Icon,
-	Cancel01Icon,
 } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { Toaster as Sonner, toast as sonnerToast } from "sonner";
 import { cn } from "../lib";
 import { Button } from "./button";
@@ -77,7 +77,7 @@ function Toast({
 			return (
 				<HugeiconsIcon
 					icon={Loading03Icon}
-					className="size-5 text-primary animate-spin"
+					className="size-5 animate-spin text-primary"
 					aria-hidden="true"
 					strokeWidth={2}
 				/>
@@ -115,7 +115,7 @@ function Toast({
 	return (
 		<div
 			className={cn(
-				"group pointer-events-auto relative flex w-full items-center gap-3 rounded-lg border bg-card p-4 text-sm text-card-foreground shadow-md transition-all",
+				"group pointer-events-auto relative flex w-full items-center gap-3 rounded-lg border bg-card p-4 text-card-foreground text-sm shadow-md transition-all",
 				getBorderColor(),
 			)}
 		>

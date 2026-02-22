@@ -73,7 +73,9 @@ export function MobileColumnView({
 		[activeIndex, columns.length],
 	);
 
-	if (columns.length === 0) return null;
+	if (columns.length === 0) {
+		return null;
+	}
 
 	return (
 		<div className="flex flex-col gap-3">
@@ -85,7 +87,7 @@ export function MobileColumnView({
 							type="button"
 							onClick={() => setActiveIndex(idx)}
 							className={cn(
-								"shrink-0 rounded-full px-3 py-1.5 text-xs font-medium transition-colors",
+								"shrink-0 rounded-full px-3 py-1.5 font-medium text-xs transition-colors",
 								idx === activeIndex
 									? "bg-primary text-primary-foreground"
 									: "bg-muted text-muted-foreground",

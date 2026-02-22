@@ -17,6 +17,7 @@ import {
 	SidebarMenuButton,
 	SidebarMenuItem,
 } from "@repo/ui";
+import { Skeleton } from "@repo/ui/components/skeleton";
 import { useActiveOrganization } from "@saas/organizations/hooks/use-active-organization";
 import { UserAvatar } from "@shared/components/UserAvatar";
 import { orpc } from "@shared/lib/orpc-query-utils";
@@ -47,7 +48,7 @@ export function BoardSidebarContent() {
 		input: { organizationId: activeOrganization?.id ?? "" },
 	});
 
-	const { data } = useQuery(listQueryOptions);
+	const { data, isLoading } = useQuery(listQueryOptions);
 
 	const favoriteMutation = useMutation({
 		...orpc.boards.toggleFavorite.mutationOptions(),
@@ -190,7 +191,29 @@ export function BoardSidebarContent() {
 				</SidebarGroupContent>
 			</SidebarGroup>
 
-			{favorites.length > 0 && (
+			{isLoading && (
+				<SidebarGroup>
+					<SidebarGroupLabel>
+						{t("boards.sidebar.recent")}
+					</SidebarGroupLabel>
+					<SidebarGroupContent>
+						<SidebarMenu>
+							{["w-28", "w-20", "w-24"].map((widthClass) => (
+								<SidebarMenuItem key={widthClass}>
+									<SidebarMenuButton>
+										<Skeleton className="size-4 rounded" />
+										<Skeleton
+											className={`h-3.5 ${widthClass}`}
+										/>
+									</SidebarMenuButton>
+								</SidebarMenuItem>
+							))}
+						</SidebarMenu>
+					</SidebarGroupContent>
+				</SidebarGroup>
+			)}
+
+			{!isLoading && favorites.length > 0 && (
 				<SidebarGroup>
 					<SidebarGroupLabel>
 						{t("boards.sidebar.favorites")}
@@ -203,26 +226,28 @@ export function BoardSidebarContent() {
 				</SidebarGroup>
 			)}
 
-			<SidebarGroup>
-				<SidebarGroupLabel>
-					{t("boards.sidebar.recent")}
-				</SidebarGroupLabel>
-				<SidebarGroupContent>
-					<SidebarMenu>
-						{recent.length > 0 ? (
-							recent.map((board) => renderBoardItem(board))
-						) : (
-							<li className="flex flex-col items-center gap-1 py-4 text-center">
-								<span className="text-xs text-muted-foreground/60">
-									{t("boards.empty.title")}
-								</span>
-							</li>
-						)}
-					</SidebarMenu>
-				</SidebarGroupContent>
-			</SidebarGroup>
+			{!isLoading && (
+				<SidebarGroup>
+					<SidebarGroupLabel>
+						{t("boards.sidebar.recent")}
+					</SidebarGroupLabel>
+					<SidebarGroupContent>
+						<SidebarMenu>
+							{recent.length > 0 ? (
+								recent.map((board) => renderBoardItem(board))
+							) : (
+								<li className="flex flex-col items-center gap-1 py-4 text-center">
+									<span className="text-muted-foreground/60 text-xs">
+										{t("boards.empty.title")}
+									</span>
+								</li>
+							)}
+						</SidebarMenu>
+					</SidebarGroupContent>
+				</SidebarGroup>
+			)}
 
-			{shared.length > 0 && (
+			{!isLoading && shared.length > 0 && (
 				<SidebarGroup>
 					<SidebarGroupLabel>
 						{t("boards.sidebar.shared")}

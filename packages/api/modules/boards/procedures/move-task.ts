@@ -23,17 +23,11 @@ export const moveTask = protectedProcedure
 			throw new ORPCError("NOT_FOUND");
 		}
 
-		const { permissions } = await verifyBoardAccess(
-			task.boardId,
-			user.id,
-		);
+		const { permissions } = await verifyBoardAccess(task.boardId, user.id);
 
 		if (!permissions.canMoveAnyTask) {
 			if (
-				!(
-					permissions.canUpdateOwnTask &&
-					task.assigneeId === user.id
-				)
+				!(permissions.canUpdateOwnTask && task.assigneeId === user.id)
 			) {
 				throw new ORPCError("FORBIDDEN");
 			}

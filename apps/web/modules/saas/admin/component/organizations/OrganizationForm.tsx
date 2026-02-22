@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { Button } from "@repo/ui/components/button";
 import {
 	Card,
@@ -29,6 +28,7 @@ import {
 } from "@saas/organizations/lib/api";
 import { useRouter } from "@shared/hooks/router";
 import { orpc } from "@shared/lib/orpc-query-utils";
+import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";

@@ -10,7 +10,7 @@ export function AuthWrapper({
 	contentClass,
 }: PropsWithChildren<{ contentClass?: string }>) {
 	return (
-		<div className="bg-muted flex min-h-svh flex-col items-center justify-center gap-6 p-6 md:p-10">
+		<div className="flex min-h-svh flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10">
 			<div
 				className={cn(
 					"flex w-full max-w-sm flex-col gap-6",
@@ -23,7 +23,7 @@ export function AuthWrapper({
 				{children}
 				<LocaleLink
 					href={"/"}
-					className="flex items-center self-center text-sm gap-1"
+					className="flex items-center gap-1 self-center text-sm"
 				>
 					<HugeiconsIcon
 						icon={ArrowLeft}

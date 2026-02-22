@@ -1,5 +1,7 @@
 "use client";
 
+import { Delete01Icon, Edit02Icon, SentIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { Button } from "@repo/ui/components/button";
 import { Textarea } from "@repo/ui/components/textarea";
 import { toastError, toastSuccess } from "@repo/ui/components/toast";
@@ -7,12 +9,6 @@ import { useSession } from "@saas/auth/hooks/use-session";
 import { UserAvatar } from "@shared/components/UserAvatar";
 import { orpc } from "@shared/lib/orpc-query-utils";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { HugeiconsIcon } from "@hugeicons/react";
-import {
-	Edit02Icon,
-	Delete01Icon,
-	SentIcon,
-} from "@hugeicons/core-free-icons";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 
@@ -48,9 +44,7 @@ export function TaskCommentsSection({
 		onSuccess: () => {
 			queryClient.invalidateQueries(commentsQueryOptions);
 			setNewComment("");
-			toastSuccess(
-				t("boards.task.comments.notifications.createSuccess"),
-			);
+			toastSuccess(t("boards.task.comments.notifications.createSuccess"));
 		},
 		onError: () => {
 			toastError(t("boards.task.comments.notifications.createError"));
@@ -63,9 +57,7 @@ export function TaskCommentsSection({
 			queryClient.invalidateQueries(commentsQueryOptions);
 			setEditingId(null);
 			setEditContent("");
-			toastSuccess(
-				t("boards.task.comments.notifications.updateSuccess"),
-			);
+			toastSuccess(t("boards.task.comments.notifications.updateSuccess"));
 		},
 		onError: () => {
 			toastError(t("boards.task.comments.notifications.updateError"));
@@ -76,9 +68,7 @@ export function TaskCommentsSection({
 		...orpc.boards.tasks.comments.delete.mutationOptions(),
 		onSuccess: () => {
 			queryClient.invalidateQueries(commentsQueryOptions);
-			toastSuccess(
-				t("boards.task.comments.notifications.deleteSuccess"),
-			);
+			toastSuccess(t("boards.task.comments.notifications.deleteSuccess"));
 		},
 		onError: () => {
 			toastError(t("boards.task.comments.notifications.deleteError"));
@@ -87,13 +77,17 @@ export function TaskCommentsSection({
 
 	function handleSubmit() {
 		const trimmed = newComment.trim();
-		if (!trimmed) return;
+		if (!trimmed) {
+			return;
+		}
 		createMutation.mutate({ taskId, boardId, content: trimmed });
 	}
 
 	function handleUpdate(id: string) {
 		const trimmed = editContent.trim();
-		if (!trimmed) return;
+		if (!trimmed) {
+			return;
+		}
 		updateMutation.mutate({ id, content: trimmed });
 	}
 
@@ -122,7 +116,7 @@ export function TaskCommentsSection({
 
 	return (
 		<div className="space-y-3">
-			<h4 className="text-sm font-medium">
+			<h4 className="font-medium text-sm">
 				{t("boards.task.comments.title")}
 			</h4>
 
@@ -131,31 +125,30 @@ export function TaskCommentsSection({
 					<div className="size-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
 				</div>
 			) : comments.length === 0 ? (
-				<p className="text-sm text-muted-foreground py-2">
+				<p className="py-2 text-muted-foreground text-sm">
 					{t("boards.task.comments.empty")}
 				</p>
 			) : (
-				<div className="space-y-3 max-h-60 overflow-y-auto">
+				<div className="max-h-60 space-y-3 overflow-y-auto">
 					{comments.map((comment) => (
 						<div key={comment.id} className="flex gap-2">
 							<UserAvatar
 								name={
-									comment.author.name ??
-									comment.author.email
+									comment.author.name ?? comment.author.email
 								}
 								avatarUrl={comment.author.image}
 								className="size-7 shrink-0"
 							/>
-							<div className="flex-1 min-w-0">
+							<div className="min-w-0 flex-1">
 								<div className="flex items-center gap-2">
-									<span className="text-sm font-medium truncate">
+									<span className="truncate font-medium text-sm">
 										{comment.author.name}
 									</span>
-									<span className="text-xs text-muted-foreground shrink-0">
+									<span className="shrink-0 text-muted-foreground text-xs">
 										{formatTime(comment.createdAt)}
 									</span>
 									{comment.authorId === user?.id && (
-										<div className="ml-auto flex items-center gap-1 shrink-0">
+										<div className="ml-auto flex shrink-0 items-center gap-1">
 											<button
 												type="button"
 												onClick={() =>
@@ -164,7 +157,7 @@ export function TaskCommentsSection({
 														comment.content,
 													)
 												}
-												className="text-muted-foreground hover:text-foreground p-0.5"
+												className="p-0.5 text-muted-foreground hover:text-foreground"
 											>
 												<HugeiconsIcon
 													icon={Edit02Icon}
@@ -177,7 +170,7 @@ export function TaskCommentsSection({
 												onClick={() =>
 													handleDelete(comment.id)
 												}
-												className="text-muted-foreground hover:text-destructive p-0.5"
+												className="p-0.5 text-muted-foreground hover:text-destructive"
 											>
 												<HugeiconsIcon
 													icon={Delete01Icon}
@@ -223,7 +216,7 @@ export function TaskCommentsSection({
 										</div>
 									</div>
 								) : (
-									<p className="text-sm text-foreground/80 whitespace-pre-wrap break-words">
+									<p className="whitespace-pre-wrap break-words text-foreground/80 text-sm">
 										{comment.content}
 									</p>
 								)}
@@ -239,7 +232,7 @@ export function TaskCommentsSection({
 						value={newComment}
 						onChange={(e) => setNewComment(e.target.value)}
 						placeholder={t("boards.task.comments.placeholder")}
-						className="min-h-[60px] text-sm flex-1"
+						className="min-h-[60px] flex-1 text-sm"
 						onKeyDown={(e) => {
 							if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
 								e.preventDefault();

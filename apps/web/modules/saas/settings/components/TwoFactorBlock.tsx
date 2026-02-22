@@ -1,4 +1,12 @@
 "use client";
+import {
+	ArrowRight01Icon,
+	Cancel01Icon,
+	SecurityCheckIcon,
+	SmartPhone01Icon,
+	Tick02Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { authClient } from "@repo/auth/client";
 import { Button } from "@repo/ui/components/button";
 import { Card } from "@repo/ui/components/card";
@@ -17,14 +25,6 @@ import { useSession } from "@saas/auth/hooks/use-session";
 import { useUserAccountsQuery } from "@saas/auth/lib/api";
 import { SettingsItem } from "@saas/shared/components/SettingsItem";
 import { useMutation } from "@tanstack/react-query";
-import { HugeiconsIcon } from "@hugeicons/react";
-import {
-	ArrowRight01Icon,
-	Tick02Icon,
-	SecurityCheckIcon,
-	SmartPhone01Icon,
-	Cancel01Icon,
-} from "@hugeicons/core-free-icons";
 import { useTranslations } from "next-intl";
 import { useEffect, useMemo, useState } from "react";
 import QRCode from "react-qr-code";
@@ -164,22 +164,34 @@ export function TwoFactorBlock() {
 			description={t("settings.account.security.twoFactor.description")}
 		>
 			{user?.twoFactorEnabled ? (
-				<div className="flex items-start flex-col gap-4">
+				<div className="flex flex-col items-start gap-4">
 					<div className="flex items-center gap-1.5">
-						<HugeiconsIcon icon={SecurityCheckIcon} className="size-6 text-green-500" strokeWidth={2} />
-						<p className="text-sm text-foreground">
+						<HugeiconsIcon
+							icon={SecurityCheckIcon}
+							className="size-6 text-green-500"
+							strokeWidth={2}
+						/>
+						<p className="text-foreground text-sm">
 							{t("settings.account.security.twoFactor.enabled")}
 						</p>
 					</div>
 					<Button variant="secondary" onClick={verifyPassword}>
-						<HugeiconsIcon icon={Cancel01Icon} className="mr-1.5 size-4" strokeWidth={2} />
+						<HugeiconsIcon
+							icon={Cancel01Icon}
+							className="mr-1.5 size-4"
+							strokeWidth={2}
+						/>
 						{t("settings.account.security.twoFactor.disable")}
 					</Button>
 				</div>
 			) : (
 				<div className="flex justify-start">
 					<Button variant="secondary" onClick={verifyPassword}>
-						<HugeiconsIcon icon={SmartPhone01Icon} className="mr-1.5 size-4" strokeWidth={2} />
+						<HugeiconsIcon
+							icon={SmartPhone01Icon}
+							className="mr-1.5 size-4"
+							strokeWidth={2}
+						/>
 						{t("settings.account.security.twoFactor.enable")}
 					</Button>
 				</div>
@@ -202,7 +214,7 @@ export function TwoFactorBlock() {
 					{dialogView === "password" ? (
 						<form onSubmit={handleSubmit}>
 							<div className="grid grid-cols-1 gap-4">
-								<p className="text-sm text-foreground/60">
+								<p className="text-foreground/60 text-sm">
 									{t(
 										"settings.account.security.twoFactor.dialog.password.description",
 									)}
@@ -216,7 +228,9 @@ export function TwoFactorBlock() {
 									</Label>
 									<PasswordInput
 										value={password}
-										onChange={(e) => setPassword(e.target.value)}
+										onChange={(e) =>
+											setPassword(e.target.value)
+										}
 									/>
 								</FormItem>
 							</div>
@@ -231,14 +245,18 @@ export function TwoFactorBlock() {
 									}
 								>
 									{t("common.actions.continue")}
-									<HugeiconsIcon icon={ArrowRight01Icon} className="ml-1.5 size-4" strokeWidth={2} />
+									<HugeiconsIcon
+										icon={ArrowRight01Icon}
+										className="ml-1.5 size-4"
+										strokeWidth={2}
+									/>
 								</Button>
 							</div>
 						</form>
 					) : (
 						<form onSubmit={handleSubmit}>
 							<div className="grid grid-cols-1 gap-4">
-								<p className="text-sm text-foreground/60">
+								<p className="text-foreground/60 text-sm">
 									{t(
 										"settings.account.security.twoFactor.dialog.totpUrl.description",
 									)}
@@ -247,7 +265,7 @@ export function TwoFactorBlock() {
 									<QRCode title={totpURI} value={totpURI} />
 
 									{totpURISecret && (
-										<p className="text-xs text-muted-foreground text-center">
+										<p className="text-center text-muted-foreground text-xs">
 											{totpURISecret}
 										</p>
 									)}
@@ -278,7 +296,11 @@ export function TwoFactorBlock() {
 									className="w-full"
 									loading={verifyTwoFactorMutation.isPending}
 								>
-									<HugeiconsIcon icon={Tick02Icon} className="mr-1.5 size-4" strokeWidth={2} />
+									<HugeiconsIcon
+										icon={Tick02Icon}
+										className="mr-1.5 size-4"
+										strokeWidth={2}
+									/>
 									{t("common.actions.verify")}
 								</Button>
 							</div>

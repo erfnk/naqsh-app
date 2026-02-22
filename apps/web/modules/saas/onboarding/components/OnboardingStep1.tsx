@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { authClient } from "@repo/auth/client";
@@ -20,6 +19,7 @@ import {
 import { Input } from "@repo/ui/components/input";
 import { useSession } from "@saas/auth/hooks/use-session";
 import { UserAvatarUpload } from "@saas/settings/components/UserAvatarUpload";
+import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";

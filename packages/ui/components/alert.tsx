@@ -53,7 +53,7 @@ const AlertDescription = ({
 	...props
 }: React.HTMLAttributes<HTMLParagraphElement>) => (
 	<div
-		className={cn("text-sm [&_p]:leading-relaxed mt-1", className)}
+		className={cn("mt-1 text-sm [&_p]:leading-relaxed", className)}
 		{...props}
 	/>
 );

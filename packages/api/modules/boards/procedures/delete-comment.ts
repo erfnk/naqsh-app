@@ -1,10 +1,10 @@
 import { ORPCError } from "@orpc/server";
+import { hasMinRole } from "@repo/auth/lib/roles";
 import {
 	deleteTaskComment,
-	getTaskComment,
 	getOrganizationMembership,
+	getTaskComment,
 } from "@repo/database";
-import { hasMinRole } from "@repo/auth/lib/roles";
 import { protectedProcedure } from "../../../orpc/procedures";
 import { verifyBoardAccess } from "../lib/board-access";
 import { deleteCommentSchema } from "../types";

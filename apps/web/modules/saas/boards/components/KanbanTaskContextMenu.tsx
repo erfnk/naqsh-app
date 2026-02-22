@@ -153,9 +153,7 @@ export function KanbanTaskContextMenu({
 							variant="destructive"
 							onClick={() =>
 								confirm({
-									title: t(
-										"boards.task.delete.confirmTitle",
-									),
+									title: t("boards.task.delete.confirmTitle"),
 									message: t(
 										"boards.task.delete.confirmMessage",
 									),

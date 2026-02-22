@@ -13,15 +13,15 @@ import {
 	Textarea,
 } from "@repo/ui";
 import { Switch } from "@repo/ui/components/switch";
+import { toastError, toastSuccess } from "@repo/ui/components/toast";
+import { useActiveOrganization } from "@saas/organizations/hooks/use-active-organization";
 import { orpc } from "@shared/lib/orpc-query-utils";
+import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@shared/lib/zod-form-resolver";
-import { useActiveOrganization } from "@saas/organizations/hooks/use-active-organization";
-import { toastError, toastSuccess } from "@repo/ui/components/toast";
 
 const formSchema = z.object({
 	title: z.string().min(1).max(100),
@@ -43,8 +43,7 @@ export function CreateBoardDialog({
 	const t = useTranslations();
 	const router = useRouter();
 	const queryClient = useQueryClient();
-	const { activeOrganization, isOrganizationAdmin } =
-		useActiveOrganization();
+	const { activeOrganization, isOrganizationAdmin } = useActiveOrganization();
 
 	const {
 		register,
@@ -60,12 +59,12 @@ export function CreateBoardDialog({
 
 	const isShared = watch("shared");
 
-	const createMutation = useMutation(
-		orpc.boards.create.mutationOptions(),
-	);
+	const createMutation = useMutation(orpc.boards.create.mutationOptions());
 
 	async function onSubmit(values: FormValues) {
-		if (!activeOrganization) return;
+		if (!activeOrganization) {
+			return;
+		}
 
 		try {
 			const board = await createMutation.mutateAsync({
@@ -82,7 +81,9 @@ export function CreateBoardDialog({
 			toastSuccess(t("boards.create.notifications.success"));
 			reset();
 			onOpenChange(false);
-			router.push(`/app/${activeOrganization.slug}/boards/${board.slug ?? board.id}`);
+			router.push(
+				`/app/${activeOrganization.slug}/boards/${board.slug ?? board.id}`,
+			);
 		} catch {
 			toastError(t("boards.create.notifications.error"));
 		}
@@ -108,7 +109,7 @@ export function CreateBoardDialog({
 							autoFocus
 						/>
 						{errors.title && (
-							<p className="text-sm text-destructive">
+							<p className="text-destructive text-sm">
 								{errors.title.message}
 							</p>
 						)}
@@ -120,7 +121,9 @@ export function CreateBoardDialog({
 						</Label>
 						<Textarea
 							id="description"
-							placeholder={t("boards.create.descriptionPlaceholder")}
+							placeholder={t(
+								"boards.create.descriptionPlaceholder",
+							)}
 							{...register("description")}
 							rows={3}
 						/>

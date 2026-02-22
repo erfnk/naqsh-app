@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { Alert02Icon, ArrowLeft01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { authClient } from "@repo/auth/client";
@@ -33,6 +32,7 @@ import {
 } from "@repo/ui/components/input-otp";
 import { useAuthErrorMessages } from "@saas/auth/hooks/errors-messages";
 import { useRouter } from "@shared/hooks/router";
+import { zodResolver } from "@shared/lib/zod-form-resolver";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -98,7 +98,10 @@ export function OtpForm() {
 						<FieldGroup>
 							{form.formState.errors.root && (
 								<Alert variant="error">
-									<HugeiconsIcon icon={Alert02Icon} strokeWidth={2} />
+									<HugeiconsIcon
+										icon={Alert02Icon}
+										strokeWidth={2}
+									/>
 									<AlertTitle>
 										{form.formState.errors.root.message}
 									</AlertTitle>
@@ -170,8 +173,15 @@ export function OtpForm() {
 								</Button>
 
 								<FieldDescription className="text-center">
-									<Link href="/auth/login" className="inline-flex items-center gap-1.5">
-										<HugeiconsIcon icon={ArrowLeft01Icon} className="size-4" strokeWidth={2} />
+									<Link
+										href="/auth/login"
+										className="inline-flex items-center gap-1.5"
+									>
+										<HugeiconsIcon
+											icon={ArrowLeft01Icon}
+											className="size-4"
+											strokeWidth={2}
+										/>
 										{t("auth.verify.backToSignin")}
 									</Link>
 								</FieldDescription>

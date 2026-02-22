@@ -342,7 +342,6 @@
 			"confirm": "Confirm"
 		},
 		"menu": {
-			"contact": "Contact",
 			"dashboard": "Dashboard",
 			"login": "Login"
 		},
@@ -355,20 +354,6 @@
 			"light": "Light",
 			"dark": "Dark"
 		}
-	},
-	"contact": {
-		"description": "We are here to help you. Please use the form below to get in touch with us.",
-		"form": {
-			"email": "Email",
-			"message": "Message",
-			"name": "Name",
-			"notifications": {
-				"error": "We are sorry, but we were unable to send your message. Please try again later.",
-				"success": "Your message has been sent successfully. We will get back to you as soon as possible."
-			},
-			"submit": "Send message"
-		},
-		"title": "Contact us"
 	},
 	"mail": {
 		"common": {
@@ -395,10 +380,6 @@
 			"body": "Hey,\nthanks for signing up for Naqsh.\n\nTo start using our app, please confirm your email address by clicking the link below.",
 			"confirmEmail": "Confirm email",
 			"subject": "Confirm your email"
-		},
-		"newsletterSignup": {
-			"body": "Thank you for signing up for the Naqsh newsletter. We will keep you updated with the latest news and updates.",
-			"subject": "Welcome to our newsletter"
 		},
 		"organizationInvitation": {
 			"body": "You have been invited to join the organization {organizationName}. Click the button below or copy and paste the link into your browser of choice to accept the invitation and join the organization.",
@@ -567,7 +548,22 @@
 			}
 		},
 		"start": {
-			"subtitle": "Welcome to the start page of this organization!"
+			"subtitle": "Welcome to the start page of this organization!",
+			"recentTasks": {
+				"title": "Recent Tasks",
+				"description": "Your most recently updated assigned tasks.",
+				"emptyTitle": "No tasks assigned",
+				"emptyDescription": "You don't have any tasks assigned yet. Create a board to get started."
+			},
+			"members": {
+				"title": "Members",
+				"description": "{count, plural, one {# member} other {# members}}"
+			},
+			"settings": {
+				"title": "Organization Settings",
+				"description": "Manage your organization configuration.",
+				"goToSettings": "Go to Settings"
+			}
 		}
 	},
 	"settings": {

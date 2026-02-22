@@ -1,6 +1,6 @@
-import { Button } from "@repo/ui/components/button";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon, ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Button } from "@repo/ui/components/button";
 
 export type PaginatioProps = {
 	className?: string;

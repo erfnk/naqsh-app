@@ -57,11 +57,11 @@ export function BoardToolbar({ boardTitle }: BoardToolbarProps) {
 	}
 
 	return (
-		<div className="flex flex-row items-center gap-2 max-w-xl">
+		<div className="flex max-w-xl flex-row items-center gap-2">
 			<div className="relative flex-1">
 				<HugeiconsIcon
 					icon={SearchIcon}
-					className="pointer-events-none absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+					className="pointer-events-none absolute top-1/2 left-2.5 size-4 -translate-y-1/2 text-muted-foreground"
 					strokeWidth={2}
 				/>
 				<Input
@@ -74,7 +74,7 @@ export function BoardToolbar({ boardTitle }: BoardToolbarProps) {
 
 			<div className="relative">
 				{!!assignee && (
-					<span className="absolute -right-0.5 -top-0.5 z-10 size-1.5 rounded-full bg-primary" />
+					<span className="absolute -top-0.5 -right-0.5 z-10 size-1.5 rounded-full bg-primary" />
 				)}
 				<Select
 					value={assignee}
@@ -122,7 +122,7 @@ export function BoardToolbar({ boardTitle }: BoardToolbarProps) {
 
 			<div className="relative">
 				{!!priority && (
-					<span className="absolute -right-0.5 -top-0.5 z-10 size-1.5 rounded-full bg-primary" />
+					<span className="absolute -top-0.5 -right-0.5 z-10 size-1.5 rounded-full bg-primary" />
 				)}
 				<Select
 					value={priority}

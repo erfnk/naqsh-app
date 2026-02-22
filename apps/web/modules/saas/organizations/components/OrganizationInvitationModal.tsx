@@ -92,7 +92,9 @@ export function OrganizationInvitationModal({
 	return (
 		<Card>
 			<CardHeader className="text-center">
-				<CardTitle>{t("organizations.invitationModal.title")}</CardTitle>
+				<CardTitle>
+					{t("organizations.invitationModal.title")}
+				</CardTitle>
 				<CardDescription>
 					{t("organizations.invitationModal.description", {
 						organizationName,

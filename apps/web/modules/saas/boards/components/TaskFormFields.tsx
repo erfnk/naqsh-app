@@ -11,8 +11,8 @@ import {
 } from "@repo/ui";
 import { useTranslations } from "next-intl";
 import type { UseFormReturn } from "react-hook-form";
-import { AssigneeSelect } from "./AssigneeSelect";
 import { PRIORITY_CONFIG } from "../lib/constants";
+import { AssigneeSelect } from "./AssigneeSelect";
 
 interface TaskFormValues {
 	title: string;
@@ -60,7 +60,7 @@ export function TaskFormFields({
 					disabled={readOnly}
 				/>
 				{form.formState.errors.title && (
-					<p className="text-sm text-destructive">
+					<p className="text-destructive text-sm">
 						{form.formState.errors.title.message}
 					</p>
 				)}
@@ -72,9 +72,7 @@ export function TaskFormFields({
 				</Label>
 				<Textarea
 					id="task-description"
-					placeholder={t(
-						"boards.task.create.descriptionPlaceholder",
-					)}
+					placeholder={t("boards.task.create.descriptionPlaceholder")}
 					{...form.register("description")}
 					rows={3}
 					disabled={readOnly}
@@ -93,7 +91,10 @@ export function TaskFormFields({
 					}
 				>
 					<SelectTrigger className="w-full">
-						<span data-slot="select-value" className="flex flex-1 items-center text-left">
+						<span
+							data-slot="select-value"
+							className="flex flex-1 items-center text-left"
+						>
 							{priorityLabel}
 						</span>
 					</SelectTrigger>
@@ -118,7 +119,10 @@ export function TaskFormFields({
 					onValueChange={(v) => form.setValue("columnId", v)}
 				>
 					<SelectTrigger className="w-full">
-						<span data-slot="select-value" className="flex flex-1 items-center text-left">
+						<span
+							data-slot="select-value"
+							className="flex flex-1 items-center text-left"
+						>
 							{columnLabel}
 						</span>
 					</SelectTrigger>

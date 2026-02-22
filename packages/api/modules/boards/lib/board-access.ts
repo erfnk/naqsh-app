@@ -1,9 +1,9 @@
 import { ORPCError } from "@orpc/server";
+import { hasMinRole } from "@repo/auth/lib/roles";
 import {
 	getBoardForAccessCheck,
 	getOrganizationMembership,
 } from "@repo/database";
-import { hasMinRole } from "@repo/auth/lib/roles";
 import type { BoardPermissions } from "../types";
 
 interface BoardAccessResult {

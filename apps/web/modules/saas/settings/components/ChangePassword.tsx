@@ -1,5 +1,4 @@
 "use client";
-import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { authClient } from "@repo/auth/client";
 import { Button } from "@repo/ui/components/button";
 import {
@@ -14,6 +13,7 @@ import { PasswordInput } from "@repo/ui/components/password-input";
 import { toastError, toastSuccess } from "@repo/ui/components/toast";
 import { SettingsItem } from "@saas/shared/components/SettingsItem";
 import { useRouter } from "@shared/hooks/router";
+import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";

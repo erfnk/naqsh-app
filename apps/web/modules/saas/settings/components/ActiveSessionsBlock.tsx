@@ -1,4 +1,6 @@
 "use client";
+import { Cancel01Icon, LaptopIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { authClient } from "@repo/auth/client";
 import { Button } from "@repo/ui/components/button";
 import { Skeleton } from "@repo/ui/components/skeleton";
@@ -7,8 +9,6 @@ import { useSession } from "@saas/auth/hooks/use-session";
 import { sessionQueryKey } from "@saas/auth/lib/api";
 import { SettingsItem } from "@saas/shared/components/SettingsItem";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { LaptopIcon, Cancel01Icon } from "@hugeicons/core-free-icons";
 import { useTranslations } from "next-intl";
 import { config } from "@/config";
 
@@ -86,7 +86,11 @@ export function ActiveSessionsBlock() {
 							className="flex justify-between gap-4"
 						>
 							<div className="flex gap-2">
-								<HugeiconsIcon icon={LaptopIcon} className="size-6 shrink-0 text-primary/50" strokeWidth={2} />
+								<HugeiconsIcon
+									icon={LaptopIcon}
+									className="size-6 shrink-0 text-primary/50"
+									strokeWidth={2}
+								/>
 								<div>
 									<strong className="block text-sm">
 										{session.id === currentSession?.id
@@ -106,7 +110,11 @@ export function ActiveSessionsBlock() {
 								className="shrink-0"
 								onClick={() => revokeSession(session.token)}
 							>
-								<HugeiconsIcon icon={Cancel01Icon} className="size-4" strokeWidth={2} />
+								<HugeiconsIcon
+									icon={Cancel01Icon}
+									className="size-4"
+									strokeWidth={2}
+								/>
 							</Button>
 						</div>
 					))

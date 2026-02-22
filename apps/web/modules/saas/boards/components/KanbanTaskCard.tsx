@@ -30,14 +30,14 @@ export function KanbanTaskCard({
 	return (
 		<Card
 			className={cn(
-				"min-w-0 cursor-pointer rounded-lg p-3 touch-manipulation",
+				"min-w-0 cursor-pointer touch-manipulation rounded-lg p-3",
 				"duration-150",
 				"hover:border-foreground/10",
 				className,
 			)}
 			onClick={onClick}
 		>
-			<p className="line-clamp-2 text-sm font-medium leading-snug">
+			<p className="line-clamp-2 font-medium text-sm leading-snug">
 				{task.title}
 			</p>
 			<div className="mt-2 flex items-center justify-between gap-2">

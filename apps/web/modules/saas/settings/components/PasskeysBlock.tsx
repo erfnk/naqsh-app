@@ -1,4 +1,10 @@
 "use client";
+import {
+	Delete01Icon,
+	Key01Icon,
+	PlusSignIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { authClient } from "@repo/auth/client";
 import { Button } from "@repo/ui/components/button";
 import { Skeleton } from "@repo/ui/components/skeleton";
@@ -10,8 +16,6 @@ import {
 import { userPasskeyQueryKey, useUserPasskeysQuery } from "@saas/auth/lib/api";
 import { SettingsItem } from "@saas/shared/components/SettingsItem";
 import { useQueryClient } from "@tanstack/react-query";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Key01Icon, PlusSignIcon, Delete01Icon } from "@hugeicons/core-free-icons";
 import { useFormatter, useTranslations } from "next-intl";
 
 export function PasskeysBlock() {
@@ -91,7 +95,11 @@ export function PasskeysBlock() {
 				) : (
 					passkeys?.map((passkey) => (
 						<div key={passkey.id} className="flex gap-2">
-							<HugeiconsIcon icon={Key01Icon} className="size-6 shrink-0 text-primary/50" strokeWidth={2} />
+							<HugeiconsIcon
+								icon={Key01Icon}
+								className="size-6 shrink-0 text-primary/50"
+								strokeWidth={2}
+							/>
 							<div className="flex-1">
 								<strong className="block text-sm">
 									{passkey.deviceType} {passkey.name}
@@ -108,7 +116,11 @@ export function PasskeysBlock() {
 								className="shrink-0"
 								onClick={() => deletePasskey(passkey.id)}
 							>
-								<HugeiconsIcon icon={Delete01Icon} className="size-4" strokeWidth={2} />
+								<HugeiconsIcon
+									icon={Delete01Icon}
+									className="size-4"
+									strokeWidth={2}
+								/>
 							</Button>
 						</div>
 					))
@@ -116,7 +128,11 @@ export function PasskeysBlock() {
 
 				<div className="flex justify-start">
 					<Button variant="secondary" onClick={addPasskey}>
-						<HugeiconsIcon icon={PlusSignIcon} className="mr-1.5 size-4" strokeWidth={2} />
+						<HugeiconsIcon
+							icon={PlusSignIcon}
+							className="mr-1.5 size-4"
+							strokeWidth={2}
+						/>
 						Add passkey
 					</Button>
 				</div>

@@ -18,10 +18,7 @@ export const createTask = protectedProcedure
 	})
 	.input(createTaskSchema)
 	.handler(async ({ context: { user }, input }) => {
-		const { permissions } = await verifyBoardAccess(
-			input.boardId,
-			user.id,
-		);
+		const { permissions } = await verifyBoardAccess(input.boardId, user.id);
 
 		if (!permissions.canCreateTasks) {
 			throw new ORPCError("FORBIDDEN");

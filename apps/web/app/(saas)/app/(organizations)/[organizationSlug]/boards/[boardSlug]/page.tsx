@@ -32,7 +32,11 @@ export async function generateMetadata({
 
 	try {
 		const queryClient = getServerQueryClient();
-		const board = await resolveBoard(boardSlug, organizationSlug, queryClient);
+		const board = await resolveBoard(
+			boardSlug,
+			organizationSlug,
+			queryClient,
+		);
 		return { title: board.title };
 	} catch {
 		return { title: "Board" };
@@ -55,7 +59,11 @@ export default async function BoardPage({
 
 	let boardId: string;
 	try {
-		const board = await resolveBoard(boardSlug, organizationSlug, queryClient);
+		const board = await resolveBoard(
+			boardSlug,
+			organizationSlug,
+			queryClient,
+		);
 		boardId = board.id;
 
 		// Seed the board-by-id cache with already-fetched data to avoid a second fetch
@@ -69,7 +77,10 @@ export default async function BoardPage({
 
 	return (
 		<HydrationBoundary state={dehydrate(queryClient)}>
-			<KanbanBoard boardId={boardId} organizationSlug={organizationSlug} />
+			<KanbanBoard
+				boardId={boardId}
+				organizationSlug={organizationSlug}
+			/>
 		</HydrationBoundary>
 	);
 }

@@ -74,11 +74,15 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
 
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			queryClient.setQueryData(boardQueryOptions.queryKey, (old: any) => {
-				if (!old) return old;
+				if (!old) {
+					return old;
+				}
 				return {
 					...old,
 					columns: old.columns.map((col: any) => {
-						if (col.id !== input.columnId) return col;
+						if (col.id !== input.columnId) {
+							return col;
+						}
 						const taskMap = new Map(
 							col.tasks.map((t: any) => [t.id, t]),
 						);
@@ -123,7 +127,9 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
 
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			queryClient.setQueryData(boardQueryOptions.queryKey, (old: any) => {
-				if (!old) return old;
+				if (!old) {
+					return old;
+				}
 
 				let movedTask: any;
 				const newColumns = old.columns.map((col: any) => ({
@@ -137,12 +143,16 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
 					}),
 				}));
 
-				if (!movedTask) return old;
+				if (!movedTask) {
+					return old;
+				}
 
 				return {
 					...old,
 					columns: newColumns.map((col: any) => {
-						if (col.id !== input.targetColumnId) return col;
+						if (col.id !== input.targetColumnId) {
+							return col;
+						}
 						const newTasks = [...col.tasks];
 						newTasks.splice(input.position, 0, {
 							...movedTask,
@@ -286,7 +296,7 @@ export function KanbanBoard({ boardId }: KanbanBoardProps) {
 					permissions={permissions}
 				/>
 			) : (
-				<div className="flex gap-4 overflow-x-auto pb-4 w-full">
+				<div className="flex w-full gap-4 overflow-x-auto pb-4">
 					{columns.map(
 						(col: {
 							id: string;

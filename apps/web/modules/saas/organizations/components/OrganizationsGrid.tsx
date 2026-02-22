@@ -1,12 +1,15 @@
 "use client";
 
+import {
+	ArrowRight01Icon,
+	PlusSignCircleIcon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { config } from "@repo/auth/config";
 import { Card } from "@repo/ui/components/card";
 import { OrganizationLogo } from "@saas/organizations/components/OrganizationLogo";
 import { useActiveOrganization } from "@saas/organizations/hooks/use-active-organization";
 import { useOrganizationListQuery } from "@saas/organizations/lib/api";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRight01Icon, PlusSignCircleIcon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 
@@ -36,7 +39,11 @@ export function OrganizationsGrid() {
 							<span className="block font-medium">
 								{organization.name}
 							</span>
-							<HugeiconsIcon icon={ArrowRight01Icon} className="size-4" strokeWidth={2} />
+							<HugeiconsIcon
+								icon={ArrowRight01Icon}
+								className="size-4"
+								strokeWidth={2}
+							/>
 						</span>
 					</Card>
 				))}
@@ -46,7 +53,10 @@ export function OrganizationsGrid() {
 						href="/new-organization"
 						className="flex h-full items-center justify-center gap-2 rounded-2xl bg-primary/5 p-4 text-primary transition-colors duration-150 hover:bg-primary/10"
 					>
-						<HugeiconsIcon icon={PlusSignCircleIcon} strokeWidth={2} />
+						<HugeiconsIcon
+							icon={PlusSignCircleIcon}
+							strokeWidth={2}
+						/>
 						<span className="font-medium text-sm">
 							{t(
 								"organizations.organizationsGrid.createNewOrganization",

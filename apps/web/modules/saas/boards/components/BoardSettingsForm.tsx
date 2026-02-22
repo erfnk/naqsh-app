@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@shared/lib/zod-form-resolver";
 import {
 	AlertDialog,
 	AlertDialogAction,
@@ -21,6 +20,7 @@ import { toastError, toastSuccess } from "@repo/ui/components/toast";
 import { SettingsItem } from "@saas/shared/components/SettingsItem";
 import { useRouter } from "@shared/hooks/router";
 import { orpc } from "@shared/lib/orpc-query-utils";
+import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
@@ -98,9 +98,7 @@ export function BoardSettingsForm({
 
 	return (
 		<div className="flex flex-col gap-4">
-			<SettingsItem
-				title={t("boards.settings.name")}
-			>
+			<SettingsItem title={t("boards.settings.name")}>
 				<form onSubmit={onSubmit} className="flex flex-col gap-4">
 					<div className="space-y-2">
 						<Label>{t("boards.settings.name")}</Label>
@@ -109,10 +107,7 @@ export function BoardSettingsForm({
 
 					<div className="space-y-2">
 						<Label>{t("boards.settings.description")}</Label>
-						<Textarea
-							{...form.register("description")}
-							rows={3}
-						/>
+						<Textarea {...form.register("description")} rows={3} />
 					</div>
 
 					<div className="flex items-center justify-between gap-4">

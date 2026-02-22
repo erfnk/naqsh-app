@@ -1,7 +1,7 @@
 "use client";
 
-import { HugeiconsIcon } from "@hugeicons/react";
 import { ViewIcon, ViewOffIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import React from "react";
 import { Input } from "./input";
 
@@ -24,9 +24,17 @@ export function PasswordInput({
 				className="absolute inset-y-0 right-0 flex items-center pr-4 text-primary text-xl"
 			>
 				{showPassword ? (
-					<HugeiconsIcon icon={ViewOffIcon} className="size-4" strokeWidth={2} />
+					<HugeiconsIcon
+						icon={ViewOffIcon}
+						className="size-4"
+						strokeWidth={2}
+					/>
 				) : (
-					<HugeiconsIcon icon={ViewIcon} className="size-4" strokeWidth={2} />
+					<HugeiconsIcon
+						icon={ViewIcon}
+						className="size-4"
+						strokeWidth={2}
+					/>
 				)}
 			</button>
 		</div>

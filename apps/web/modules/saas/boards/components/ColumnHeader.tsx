@@ -25,7 +25,7 @@ export function ColumnHeader({
 			<div className="flex items-center gap-2">
 				<span className="size-2 rounded-full bg-muted-foreground/50" />
 				<h3 className="font-medium text-sm">{title}</h3>
-				<span className="rounded-md bg-muted px-1.5 py-0.5 text-xs tabular-nums text-muted-foreground">
+				<span className="rounded-md bg-muted px-1.5 py-0.5 text-muted-foreground text-xs tabular-nums">
 					{taskCount}
 				</span>
 			</div>
@@ -35,7 +35,7 @@ export function ColumnHeader({
 					size="icon-sm"
 					onClick={onAddTask}
 					aria-label={t("boards.columns.addTask")}
-					className="opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+					className="opacity-0 transition-opacity focus-visible:opacity-100 group-hover:opacity-100"
 				>
 					<HugeiconsIcon
 						icon={PlusSignIcon}

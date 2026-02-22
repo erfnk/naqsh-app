@@ -1,5 +1,13 @@
 "use client";
 
+import {
+	Cancel01Icon,
+	Clock01Icon,
+	MailRemove01Icon,
+	MoreVerticalIcon,
+	Tick02Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import type { ActiveOrganization } from "@repo/auth";
 import { authClient } from "@repo/auth/client";
 import { isOrganizationAdmin } from "@repo/auth/lib/helper";
@@ -33,14 +41,6 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { HugeiconsIcon } from "@hugeicons/react";
-import {
-	Tick02Icon,
-	Clock01Icon,
-	MailRemove01Icon,
-	MoreVerticalIcon,
-	Cancel01Icon,
-} from "@hugeicons/core-free-icons";
 import { useFormatter, useTranslations } from "next-intl";
 import { useMemo } from "react";
 import { OrganizationRoleSelect } from "./OrganizationRoleSelect";
@@ -125,7 +125,11 @@ export function OrganizationInvitationsList({
 						</strong>
 						<small className="flex flex-wrap gap-1 text-foreground/60">
 							<span className="flex items-center gap-0.5">
-								<HugeiconsIcon icon={InvitationStatusIcon} className="size-3" strokeWidth={2} />
+								<HugeiconsIcon
+									icon={InvitationStatusIcon}
+									className="size-3"
+									strokeWidth={2}
+								/>
 								{t(
 									`organizations.settings.members.invitations.invitationStatus.${row.original.status}`,
 								)}
@@ -169,7 +173,11 @@ export function OrganizationInvitationsList({
 							<DropdownMenu>
 								<DropdownMenuTrigger asChild>
 									<Button size="icon" variant="ghost">
-										<HugeiconsIcon icon={MoreVerticalIcon} className="size-4" strokeWidth={2} />
+										<HugeiconsIcon
+											icon={MoreVerticalIcon}
+											className="size-4"
+											strokeWidth={2}
+										/>
 									</Button>
 								</DropdownMenuTrigger>
 								<DropdownMenuContent>
@@ -179,7 +187,11 @@ export function OrganizationInvitationsList({
 											revokeInvitation(row.original.id)
 										}
 									>
-										<HugeiconsIcon icon={MailRemove01Icon} className="mr-2 size-4" strokeWidth={2} />
+										<HugeiconsIcon
+											icon={MailRemove01Icon}
+											className="mr-2 size-4"
+											strokeWidth={2}
+										/>
 										{t(
 											"organizations.settings.members.invitations.revoke",
 										)}

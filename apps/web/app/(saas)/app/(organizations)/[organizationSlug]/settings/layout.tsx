@@ -1,14 +1,14 @@
+import {
+	Alert02Icon,
+	Settings02Icon,
+	UserMultiple02Icon,
+} from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { isOrganizationAdmin } from "@repo/auth/lib/helper";
 import { getActiveOrganization, getSession } from "@saas/auth/lib/server";
 import { OrganizationLogo } from "@saas/organizations/components/OrganizationLogo";
 import { SettingsMenu } from "@saas/settings/components/SettingsMenu";
 import { PageHeader } from "@saas/shared/components/PageHeader";
-import { HugeiconsIcon } from "@hugeicons/react";
-import {
-	Settings02Icon,
-	Alert02Icon,
-	UserMultiple02Icon,
-} from "@hugeicons/core-free-icons";
 import { redirect } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import type { PropsWithChildren } from "react";
@@ -48,12 +48,24 @@ export default async function SettingsLayout({
 				{
 					title: t("settings.menu.organization.general"),
 					href: `${organizationSettingsBasePath}/general`,
-					icon: <HugeiconsIcon icon={Settings02Icon} className="size-4 opacity-50" strokeWidth={2} />,
+					icon: (
+						<HugeiconsIcon
+							icon={Settings02Icon}
+							className="size-4 opacity-50"
+							strokeWidth={2}
+						/>
+					),
 				},
 				{
 					title: t("settings.menu.organization.members"),
 					href: `${organizationSettingsBasePath}/members`,
-					icon: <HugeiconsIcon icon={UserMultiple02Icon} className="size-4 opacity-50" strokeWidth={2} />,
+					icon: (
+						<HugeiconsIcon
+							icon={UserMultiple02Icon}
+							className="size-4 opacity-50"
+							strokeWidth={2}
+						/>
+					),
 				},
 				...(userIsOrganizationAdmin
 					? [
@@ -63,7 +75,11 @@ export default async function SettingsLayout({
 								),
 								href: `${organizationSettingsBasePath}/danger-zone`,
 								icon: (
-									<HugeiconsIcon icon={Alert02Icon} className="size-4 opacity-50" strokeWidth={2} />
+									<HugeiconsIcon
+										icon={Alert02Icon}
+										className="size-4 opacity-50"
+										strokeWidth={2}
+									/>
 								),
 							},
 						]

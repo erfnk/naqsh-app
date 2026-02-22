@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { Button } from "@repo/ui/components/button";
 import {
 	Card,
@@ -9,11 +8,7 @@ import {
 	CardHeader,
 	CardTitle,
 } from "@repo/ui/components/card";
-import {
-	Field,
-	FieldGroup,
-	FieldLabel,
-} from "@repo/ui/components/field";
+import { Field, FieldGroup, FieldLabel } from "@repo/ui/components/field";
 import {
 	Form,
 	FormControl,
@@ -28,6 +23,7 @@ import {
 	useCreateOrganizationMutation,
 } from "@saas/organizations/lib/api";
 import { useRouter } from "@shared/hooks/router";
+import { zodResolver } from "@shared/lib/zod-form-resolver";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
@@ -96,7 +92,9 @@ export function CreateOrganizationForm({
 									<FormItem>
 										<Field>
 											<FieldLabel htmlFor="name">
-												{t("organizations.createForm.name")}
+												{t(
+													"organizations.createForm.name",
+												)}
 											</FieldLabel>
 											<FormControl>
 												<Input

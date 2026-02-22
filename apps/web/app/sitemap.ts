@@ -5,7 +5,7 @@ import type { MetadataRoute } from "next";
 const baseUrl = getBaseUrl();
 const locales = Object.keys(i18nConfig.locales);
 
-const staticMarketingPages = ["", "/contact"];
+const staticMarketingPages = [""];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 	return [

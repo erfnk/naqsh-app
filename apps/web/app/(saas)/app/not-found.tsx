@@ -1,6 +1,6 @@
-import { Button } from "@repo/ui/components/button";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowLeft01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Button } from "@repo/ui/components/button";
 import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { AppWrapper } from "@/modules/saas/shared/components/AppWrapper";
@@ -15,7 +15,11 @@ export default async function NotFoundPage() {
 				<p className="mt-2 text-2xl">{t("notFound.title")}</p>
 
 				<Button render={<Link href="/app" />} className="mt-4">
-					<HugeiconsIcon icon={ArrowLeft01Icon} className="mr-2 size-4" strokeWidth={2} />{" "}
+					<HugeiconsIcon
+						icon={ArrowLeft01Icon}
+						className="mr-2 size-4"
+						strokeWidth={2}
+					/>{" "}
 					{t("notFound.goToDashboard")}
 				</Button>
 			</div>

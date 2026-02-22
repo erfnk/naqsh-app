@@ -91,7 +91,9 @@ export function EditTaskDialog({
 	});
 
 	function onSubmit(values: TaskFormValues) {
-		if (!task) return;
+		if (!task) {
+			return;
+		}
 		updateMutation.mutate({
 			id: task.id,
 			title: values.title,

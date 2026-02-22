@@ -61,7 +61,7 @@ export function AppWrapper({ children }: PropsWithChildren) {
 				<Link href="/app" className="block">
 					<Logo withLabel={false} />
 				</Link>
-				<p className="text-sm font-medium">
+				<p className="font-medium text-sm">
 					{activeOrganization?.name}
 				</p>
 			</div>
@@ -95,7 +95,7 @@ export function AppWrapper({ children }: PropsWithChildren) {
 								className="size-6"
 							/>
 							<span className="flex-1 text-left leading-tight">
-								<span className="block truncate text-sm font-medium">
+								<span className="block truncate font-medium text-sm">
 									{user.name}
 								</span>
 								<span className="block truncate text-xs opacity-70">

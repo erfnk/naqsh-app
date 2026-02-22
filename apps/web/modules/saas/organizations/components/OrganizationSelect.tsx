@@ -1,4 +1,6 @@
 "use client";
+import { PlusSignIcon, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { config as authConfig } from "@repo/auth/config";
 import { cn } from "@repo/ui";
 import {
@@ -24,8 +26,6 @@ import { useOrganizationListQuery } from "@saas/organizations/lib/api";
 import { UserAvatar } from "@shared/components/UserAvatar";
 import { useRouter } from "@shared/hooks/router";
 import { clearCache } from "@shared/lib/cache";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { UnfoldMoreIcon, PlusSignIcon } from "@hugeicons/core-free-icons";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { OrganizationLogo } from "./OrganizationLogo";
@@ -53,7 +53,7 @@ export function OrganzationSelect({
 				"flex w-full items-center justify-between gap-3 text-left outline-none transition-colors",
 				{
 					"justify-center": collapsed,
-					"px-2 py-2 rounded-lg hover:bg-muted/50": collapsed,
+					"rounded-lg px-2 py-2 hover:bg-muted/50": collapsed,
 				},
 			)}
 		>
@@ -61,7 +61,7 @@ export function OrganzationSelect({
 				className={cn(
 					"flex flex-1 items-center gap-3 overflow-hidden",
 					{
-						"flex-1 flex justify-center": collapsed,
+						"flex flex-1 justify-center": collapsed,
 					},
 				)}
 			>
@@ -77,7 +77,7 @@ export function OrganzationSelect({
 						/>
 						{!collapsed && (
 							<div className="flex min-w-0 flex-1 flex-col">
-								<span className="truncate text-sm font-semibold text-foreground">
+								<span className="truncate font-semibold text-foreground text-sm">
 									{activeOrganization.name}
 								</span>
 							</div>
@@ -95,7 +95,7 @@ export function OrganzationSelect({
 						/>
 						{!collapsed && (
 							<div className="flex min-w-0 flex-1 flex-col">
-								<span className="truncate text-sm font-semibold text-foreground">
+								<span className="truncate font-semibold text-foreground text-sm">
 									{t(
 										"organizations.organizationSelect.personalAccount",
 									)}
@@ -107,7 +107,11 @@ export function OrganzationSelect({
 			</div>
 
 			{!collapsed && (
-				<HugeiconsIcon icon={UnfoldMoreIcon} className="size-4 shrink-0 text-muted-foreground" strokeWidth={2} />
+				<HugeiconsIcon
+					icon={UnfoldMoreIcon}
+					className="size-4 shrink-0 text-muted-foreground"
+					strokeWidth={2}
+				/>
 			)}
 		</DropdownMenuTrigger>
 	);
@@ -192,10 +196,14 @@ export function OrganzationSelect({
 				<DropdownMenuGroup>
 					<DropdownMenuItem
 						asChild
-						className="text-primary! cursor-pointer text-sm"
+						className="cursor-pointer text-primary! text-sm"
 					>
 						<Link href="/new-organization">
-							<HugeiconsIcon icon={PlusSignIcon} className="mr-2 size-6 rounded-md bg-primary/20 p-1" strokeWidth={2} />
+							<HugeiconsIcon
+								icon={PlusSignIcon}
+								className="mr-2 size-6 rounded-md bg-primary/20 p-1"
+								strokeWidth={2}
+							/>
 							{t(
 								"organizations.organizationSelect.createNewOrganization",
 							)}

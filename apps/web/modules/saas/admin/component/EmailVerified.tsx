@@ -1,3 +1,5 @@
+import { Clock01Icon, Tick02Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
 import { cn } from "@repo/ui";
 import {
 	Tooltip,
@@ -5,8 +7,6 @@ import {
 	TooltipProvider,
 	TooltipTrigger,
 } from "@repo/ui/components/tooltip";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Tick02Icon, Clock01Icon } from "@hugeicons/core-free-icons";
 import { useTranslations } from "next-intl";
 
 export function EmailVerified({
@@ -27,9 +27,17 @@ export function EmailVerified({
 				</TooltipContent>
 				<TooltipTrigger className={cn(className)}>
 					{verified ? (
-						<HugeiconsIcon icon={Tick02Icon} className="size-3 text-primary" strokeWidth={2} />
+						<HugeiconsIcon
+							icon={Tick02Icon}
+							className="size-3 text-primary"
+							strokeWidth={2}
+						/>
 					) : (
-						<HugeiconsIcon icon={Clock01Icon} className="size-3" strokeWidth={2} />
+						<HugeiconsIcon
+							icon={Clock01Icon}
+							className="size-3"
+							strokeWidth={2}
+						/>
 					)}
 				</TooltipTrigger>
 			</Tooltip>

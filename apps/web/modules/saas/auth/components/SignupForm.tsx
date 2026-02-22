@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@shared/lib/zod-form-resolver";
 import {
 	Alert02Icon,
 	Mailbox01Icon,
@@ -37,6 +36,7 @@ import { useAuthErrorMessages } from "@saas/auth/hooks/errors-messages";
 import { useSession } from "@saas/auth/hooks/use-session";
 import { OrganizationInvitationAlert } from "@saas/organizations/components/OrganizationInvitationAlert";
 import { useRouter } from "@shared/hooks/router";
+import { zodResolver } from "@shared/lib/zod-form-resolver";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
@@ -292,7 +292,7 @@ export function SignupForm({ prefillEmail }: { prefillEmail?: string }) {
 								{authConfig.enableSignup &&
 									authConfig.enableSocialLogin && (
 										<>
-											<FieldSeparator className="*:data-[slot=field-separator-content]:bg-card mt-b">
+											<FieldSeparator className="mt-b *:data-[slot=field-separator-content]:bg-card">
 												{t("auth.login.continueWith")}
 											</FieldSeparator>
 											<Field>
