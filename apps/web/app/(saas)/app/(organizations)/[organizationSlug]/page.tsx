@@ -1,8 +1,8 @@
 import {
-	ArrowRight01Icon,
 	Clock01Icon,
 	Settings02Icon,
 	UserMultiple02Icon,
+	UserSettings01Icon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { getRecentUserTasks } from "@repo/database";
@@ -23,7 +23,6 @@ import {
 	EmptyTitle,
 } from "@repo/ui/components/empty";
 import { getActiveOrganization, getSession } from "@saas/auth/lib/server";
-import { PageHeader } from "@saas/shared/components/PageHeader";
 import { UserAvatar } from "@shared/components/UserAvatar";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -80,20 +79,15 @@ export default async function OrganizationPage({
 	);
 
 	return (
-		<div>
-			<PageHeader
-				title={activeOrganization.name}
-				subtitle={t("organizations.start.subtitle")}
-			/>
-
-			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+		<div className="md:flex md:min-h-[calc(100vh-10rem)] md:items-center md:justify-center">
+			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 				{/* Card 1: Recent Tasks */}
 				<Card>
 					<CardHeader>
-						<div className="flex items-center gap-2">
+						<div className="flex items-center gap-1">
 							<HugeiconsIcon
 								icon={Clock01Icon}
-								className="size-5 text-muted-foreground"
+								className="size-4 text-muted-foreground"
 								strokeWidth={2}
 							/>
 							<CardTitle>
@@ -106,12 +100,12 @@ export default async function OrganizationPage({
 					</CardHeader>
 					<CardContent>
 						{tasks.length > 0 ? (
-							<ul className="space-y-3">
+							<ul className="flex flex-col gap-1 space-y-1">
 								{tasks.map((task) => (
 									<li key={task.id}>
 										<Link
 											href={`/app/${organizationSlug}/boards/${task.board.slug}`}
-											className="flex items-center gap-2 rounded-lg p-2 text-sm transition-colors hover:bg-muted"
+											className="flex items-center gap-1 text-sm transition-colors"
 										>
 											<span className="truncate font-medium">
 												{task.title}
@@ -169,7 +163,7 @@ export default async function OrganizationPage({
 							{sortedMembers.map((member) => (
 								<li
 									key={member.id}
-									className="flex items-center gap-3"
+									className="flex items-center gap-2"
 								>
 									<UserAvatar
 										name={
@@ -190,6 +184,7 @@ export default async function OrganizationPage({
 													member.role
 												] ?? "info"
 											}
+											className="font-medium"
 										>
 											{t(
 												`organizations.roles.${member.role}` as "organizations.roles.owner",
@@ -212,32 +207,40 @@ export default async function OrganizationPage({
 								strokeWidth={2}
 							/>
 							<CardTitle>
-								{t("organizations.start.settings.title")}
+								{activeOrganization.name} Setting
 							</CardTitle>
 						</div>
 						<CardDescription>
 							{t("organizations.start.settings.description")}
 						</CardDescription>
 					</CardHeader>
-					<CardContent>
-						<p className="text-muted-foreground text-sm">
-							{activeOrganization.name}
-						</p>
-					</CardContent>
-					<CardFooter>
+					<CardFooter className="flex flex-col gap-2">
 						<Button
 							render={
 								<Link
 									href={`/app/${organizationSlug}/settings/general`}
 								/>
 							}
+							className="w-full"
 						>
-							{t("organizations.start.settings.goToSettings")}
 							<HugeiconsIcon
-								icon={ArrowRight01Icon}
+								icon={Settings02Icon}
 								className="ml-1 size-4"
 								strokeWidth={2}
 							/>
+							{t("organizations.start.settings.goToSettings")}
+						</Button>
+						<Button
+							variant="outline"
+							render={<Link href="/app/settings/general" />}
+							className="w-full"
+						>
+							<HugeiconsIcon
+								icon={UserSettings01Icon}
+								className="mr-1 size-4"
+								strokeWidth={2}
+							/>
+							{t("organizations.start.settings.goToProfile")}
 						</Button>
 					</CardFooter>
 				</Card>

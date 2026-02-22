@@ -562,7 +562,8 @@
 			"settings": {
 				"title": "Organization Settings",
 				"description": "Manage your organization configuration.",
-				"goToSettings": "Go to Settings"
+				"goToSettings": "Go to Settings",
+				"goToProfile": "Profile Settings"
 			}
 		}
 	},
