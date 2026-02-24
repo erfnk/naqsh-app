@@ -1,8 +1,8 @@
 import { config as i18nConfig } from "@repo/i18n/config";
-import { Logo } from "@repo/ui";
-import { Button } from "@repo/ui/components/button";
+import { Button, Logo } from "@repo/ui";
 import { SessionProvider } from "@saas/auth/components/SessionProvider";
 import { Document } from "@shared/components/Document";
+import { DitherBackground } from "@shared/components/dither-background";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { NextIntlClientProvider } from "next-intl";
@@ -35,45 +35,45 @@ export default async function MarketingLayout({
 		<Document locale={locale}>
 			<NextIntlClientProvider locale={locale} messages={messages}>
 				<SessionProvider>
-					<div className="min-h-svh p-4 md:p-8">
-						<section className="relative flex min-h-[calc(100vh-32px)] flex-col justify-between rounded-3xl bg-white/90 py-4 md:min-h-[calc(100vh-64px)]">
-							{/* Background Pattern - only for hero section */}
-							{/* <div
-								className="absolute inset-0 hidden overflow-hidden md:block"
-								style={{
-									maskImage:
-										"radial-gradient(ellipse 150% 200% at 100% 50%, black 0%, black 25%, transparent 65%)",
-									WebkitMaskImage:
-										"radial-gradient(ellipse 150% 200% at 100% 50%, black 0%, black 25%, transparent 65%)",
-								}}
-							>
-								<div className="absolute inset-0 bg-[linear-gradient(to_right,var(--background)_1px,transparent_1px),linear-gradient(to_bottom,var(--background)_1px,transparent_1px)] bg-size-[24px_24px]" />
-							</div> */}
-							<header className="relative w-full py-4 lg:py-8">
-								<div className="container flex items-center justify-between">
-									<LocaleLink
-										href="/"
-										className="block hover:no-underline active:no-underline"
-									>
-										<Logo />
-									</LocaleLink>
-									<Button size="sm" asChild>
-										<Link href="/app">Start</Link>
-									</Button>
-								</div>
-							</header>
+					<div className="dark grid min-h-svh content-between bg-background text-foreground">
+						<div className="absolute inset-0 min-h-svh w-full">
+							<DitherBackground
+								waveColor={[0.31, 0.31, 0.31]}
+								disableAnimation={false}
+								enableMouseInteraction={false}
+								mouseRadius={0.3}
+								colorNum={4}
+								pixelSize={2}
+								waveAmplitude={0.3}
+								waveFrequency={3}
+								waveSpeed={0.05}
+							/>
+						</div>
 
-							<main>{children}</main>
+						<header className="z-20 grid h-12 w-full items-center">
+							<div className="container flex items-center justify-between">
+								<LocaleLink
+									href="/"
+									className="block hover:no-underline active:no-underline"
+								>
+									<Logo />
+								</LocaleLink>
+								<Button size="sm" asChild>
+									<Link href="/app">Login</Link>
+								</Button>
+							</div>
+						</header>
 
-							<footer className="relative py-4 text-muted-foreground text-sm lg:py-8">
-								<div className="container">
-									<p>
-										&copy; {new Date().getFullYear()}{" "}
-										{config.appName}. All rights reserved.
-									</p>
-								</div>
-							</footer>
-						</section>
+						<main className="relative">{children}</main>
+
+						<footer className="relative grid h-12 w-full items-center text-muted-foreground text-sm">
+							<div className="container">
+								<p>
+									&copy; {new Date().getFullYear()}{" "}
+									{config.appName}. All rights reserved.
+								</p>
+							</div>
+						</footer>
 					</div>
 				</SessionProvider>
 			</NextIntlClientProvider>
