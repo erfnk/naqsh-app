@@ -36,7 +36,7 @@ export default async function MarketingLayout({
 			<NextIntlClientProvider locale={locale} messages={messages}>
 				<SessionProvider>
 					<div className="dark grid min-h-svh content-between bg-background text-foreground">
-						<div className="absolute inset-0 min-h-svh w-full">
+						<div className="mask-[radial-gradient(ellipse_80%_60%_at_50%_40%,black_10%,transparent_100%)] absolute inset-0 min-h-svh w-full">
 							<DitherBackground
 								waveColor={[0.31, 0.31, 0.31]}
 								disableAnimation={false}
@@ -49,6 +49,7 @@ export default async function MarketingLayout({
 								waveSpeed={0.05}
 							/>
 						</div>
+						<div className="pointer-events-none absolute inset-0 min-h-svh bg-linear-to-b from-background/70 via-transparent to-background/90" />
 
 						<header className="z-20 grid h-12 w-full items-center">
 							<div className="container flex items-center justify-between">
@@ -66,7 +67,7 @@ export default async function MarketingLayout({
 
 						<main className="relative">{children}</main>
 
-						<footer className="relative grid h-12 w-full items-center text-muted-foreground text-sm">
+						<footer className="relative grid h-12 w-full items-center text-sm">
 							<div className="container">
 								<p>
 									&copy; {new Date().getFullYear()}{" "}
