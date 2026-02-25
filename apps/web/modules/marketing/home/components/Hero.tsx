@@ -37,7 +37,7 @@ function Hero({ className }: HeroProps) {
 	return (
 		<section className={cn("", className)}>
 			<div className="relative mx-auto flex max-w-xl flex-col px-6 lg:block lg:max-w-6xl">
-				<div className="mx-auto grid max-w-2xl gap-4 text-center">
+				<div className="mx-auto grid max-w-2xl gap-5 text-center">
 					<div>
 						<DecryptedText
 							text="Open source and self-hostable"
@@ -54,7 +54,7 @@ function Hero({ className }: HeroProps) {
 							preset="fade-in-blur"
 							speedSegment={0.3}
 							as="h1"
-							className="text-balance font-medium text-4xl"
+							className="text-balance font-semibold text-4xl tracking-tight md:text-5xl"
 						>
 							Open-Source
 						</TextEffect>
@@ -62,7 +62,7 @@ function Hero({ className }: HeroProps) {
 							preset="fade-in-blur"
 							speedSegment={0.3}
 							as="h1"
-							className="text-balance font-medium text-4xl"
+							className="text-balance font-semibold text-4xl tracking-tight md:text-5xl"
 						>
 							Project Management
 						</TextEffect>
@@ -70,7 +70,7 @@ function Hero({ className }: HeroProps) {
 							preset="fade-in-blur"
 							speedSegment={0.3}
 							as="h1"
-							className="text-balance font-medium text-4xl"
+							className="text-balance font-semibold text-4xl tracking-tight md:text-5xl"
 						>
 							for Teams
 						</TextEffect>
@@ -81,7 +81,7 @@ function Hero({ className }: HeroProps) {
 						speedSegment={0.3}
 						delay={0.5}
 						as="p"
-						className="text-balance text-base text-muted-foreground"
+						className="mx-auto max-w-lg text-pretty text-base text-muted-foreground"
 					>
 						An open source task and project management tool for
 						teams who value simplicity. Kanban boards, priorities,
@@ -99,7 +99,7 @@ function Hero({ className }: HeroProps) {
 							},
 							...transitionVariants,
 						}}
-						className="mt-4 flex items-center justify-center gap-4"
+						className="mt-2 flex items-center justify-center gap-3"
 					>
 						<Button asChild>
 							<NextLink href="/app">Start for free</NextLink>

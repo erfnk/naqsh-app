@@ -35,23 +35,25 @@ export default async function MarketingLayout({
 		<Document locale={locale}>
 			<NextIntlClientProvider locale={locale} messages={messages}>
 				<SessionProvider>
-					<div className="dark grid min-h-svh content-between bg-background text-foreground">
-						<div className="mask-[radial-gradient(ellipse_80%_60%_at_50%_40%,black_10%,transparent_100%)] absolute inset-0 min-h-svh w-full">
+					<div className="relative grid min-h-svh content-between bg-background text-foreground">
+						<div className="mask-[radial-gradient(ellipse_90%_70%_at_50%_40%,black_20%,transparent_100%)] absolute inset-0 h-full w-full">
 							<DitherBackground
-								waveColor={[0.31, 0.31, 0.31]}
+								waveColor={[0.58, 0.56, 0.53]}
+								baseColor={[0.94, 0.93, 0.91]}
 								disableAnimation={false}
 								enableMouseInteraction={false}
 								mouseRadius={0.3}
 								colorNum={4}
 								pixelSize={2}
+								ditherBias={0.05}
 								waveAmplitude={0.3}
 								waveFrequency={3}
 								waveSpeed={0.05}
 							/>
 						</div>
-						<div className="pointer-events-none absolute inset-0 min-h-svh bg-linear-to-b from-background/70 via-transparent to-background/90" />
+						<div className="pointer-events-none absolute inset-0 h-full bg-linear-to-b from-transparent via-background/90 to-transparent" />
 
-						<header className="z-20 grid h-12 w-full items-center">
+						<header className="z-20 grid h-14 w-full items-center">
 							<div className="container flex items-center justify-between">
 								<LocaleLink
 									href="/"
@@ -67,7 +69,7 @@ export default async function MarketingLayout({
 
 						<main className="relative">{children}</main>
 
-						<footer className="relative grid h-12 w-full items-center text-sm">
+						<footer className="relative grid h-14 w-full items-center text-sm text-muted-foreground">
 							<div className="container">
 								<p>
 									&copy; {new Date().getFullYear()}{" "}
