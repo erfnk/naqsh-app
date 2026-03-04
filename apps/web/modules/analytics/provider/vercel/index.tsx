@@ -9,7 +9,7 @@ export function AnalyticsScript() {
 
 export function useAnalytics() {
 	const trackEvent = (event: string, data?: Record<string, unknown>) => {
-		track(event, data);
+		track(event, data as Record<string, string | number | boolean | null> | undefined);
 	};
 
 	return {
