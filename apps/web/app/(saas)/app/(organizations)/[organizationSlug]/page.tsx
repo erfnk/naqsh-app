@@ -12,7 +12,6 @@ import {
 	Card,
 	CardContent,
 	CardDescription,
-	CardFooter,
 	CardHeader,
 	CardTitle,
 } from "@repo/ui/components/card";
@@ -80,9 +79,9 @@ export default async function OrganizationPage({
 
 	return (
 		<div className="md:flex md:min-h-[calc(100vh-10rem)] md:items-center md:justify-center">
-			<div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+			<div className="grid gap-4 md:grid-cols-2">
 				{/* Card 1: Recent Tasks */}
-				<Card>
+				<Card className="bg-card/70">
 					<CardHeader>
 						<div className="flex items-center gap-1">
 							<HugeiconsIcon
@@ -140,7 +139,7 @@ export default async function OrganizationPage({
 				</Card>
 
 				{/* Card 2: Organization Members */}
-				<Card>
+				<Card className="bg-card/70">
 					<CardHeader>
 						<div className="flex items-center gap-2">
 							<HugeiconsIcon
@@ -196,54 +195,34 @@ export default async function OrganizationPage({
 						</ul>
 					</CardContent>
 				</Card>
-
-				{/* Card 3: Organization Settings */}
-				<Card>
-					<CardHeader>
-						<div className="flex items-center gap-2">
-							<HugeiconsIcon
-								icon={Settings02Icon}
-								className="size-5 text-muted-foreground"
-								strokeWidth={2}
+				<div className="flex items-center justify-center gap-2 md:col-span-2">
+					<Button
+						variant="ghost"
+						render={
+							<Link
+								href={`/app/${organizationSlug}/settings/general`}
 							/>
-							<CardTitle>
-								{activeOrganization.name} Setting
-							</CardTitle>
-						</div>
-						<CardDescription>
-							{t("organizations.start.settings.description")}
-						</CardDescription>
-					</CardHeader>
-					<CardFooter className="flex flex-col gap-2">
-						<Button
-							render={
-								<Link
-									href={`/app/${organizationSlug}/settings/general`}
-								/>
-							}
-							className="w-full"
-						>
-							<HugeiconsIcon
-								icon={Settings02Icon}
-								className="ml-1 size-4"
-								strokeWidth={2}
-							/>
-							{t("organizations.start.settings.goToSettings")}
-						</Button>
-						<Button
-							variant="outline"
-							render={<Link href="/app/settings/general" />}
-							className="w-full"
-						>
-							<HugeiconsIcon
-								icon={UserSettings01Icon}
-								className="mr-1 size-4"
-								strokeWidth={2}
-							/>
-							{t("organizations.start.settings.goToProfile")}
-						</Button>
-					</CardFooter>
-				</Card>
+						}
+					>
+						<HugeiconsIcon
+							icon={Settings02Icon}
+							className="ml-1 size-4"
+							strokeWidth={2}
+						/>
+						{t("organizations.start.settings.goToSettings")}
+					</Button>
+					<Button
+						variant="ghost"
+						render={<Link href="/app/settings/general" />}
+					>
+						<HugeiconsIcon
+							icon={UserSettings01Icon}
+							className="mr-1 size-4"
+							strokeWidth={2}
+						/>
+						{t("organizations.start.settings.goToProfile")}
+					</Button>
+				</div>
 			</div>
 		</div>
 	);

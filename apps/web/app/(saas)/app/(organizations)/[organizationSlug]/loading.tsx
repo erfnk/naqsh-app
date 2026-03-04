@@ -1,9 +1,4 @@
-import {
-	Card,
-	CardContent,
-	CardFooter,
-	CardHeader,
-} from "@repo/ui/components/card";
+import { Card, CardContent, CardHeader } from "@repo/ui/components/card";
 import { Skeleton } from "@repo/ui/components/skeleton";
 
 export default function Loading() {
@@ -16,7 +11,6 @@ export default function Loading() {
 			</div>
 
 			<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-				{/* Card 1: Recent Tasks */}
 				<Card>
 					<CardHeader>
 						<div className="flex items-center gap-2">
@@ -37,7 +31,6 @@ export default function Loading() {
 					</CardContent>
 				</Card>
 
-				{/* Card 2: Organization Members */}
 				<Card>
 					<CardHeader>
 						<div className="flex items-center gap-2">
@@ -64,22 +57,11 @@ export default function Loading() {
 					</CardContent>
 				</Card>
 
-				{/* Card 3: Organization Settings */}
-				<Card>
-					<CardHeader>
-						<div className="flex items-center gap-2">
-							<Skeleton className="size-5 rounded" />
-							<Skeleton className="h-5 w-40" />
-						</div>
-						<Skeleton className="h-4 w-56" />
-					</CardHeader>
-					<CardContent>
-						<Skeleton className="h-4 w-32" />
-					</CardContent>
-					<CardFooter>
-						<Skeleton className="h-9 w-32 rounded-md" />
-					</CardFooter>
-				</Card>
+				<div className="flex items-center justify-center gap-2 md:col-span-2">
+					<Skeleton className="h-4 w-32 rounded-md" />
+
+					<Skeleton className="h-4 w-32 rounded-md" />
+				</div>
 			</div>
 		</div>
 	);

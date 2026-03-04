@@ -35,7 +35,6 @@ export function ColumnHeader({
 					size="icon-sm"
 					onClick={onAddTask}
 					aria-label={t("boards.columns.addTask")}
-					className="opacity-0 transition-opacity focus-visible:opacity-100 group-hover:opacity-100"
 				>
 					<HugeiconsIcon
 						icon={PlusSignIcon}
